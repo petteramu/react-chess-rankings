@@ -1,0 +1,26 @@
+@import "../../../scss/variables";
+
+.popup {
+    width: 100%;
+    position: fixed;
+    
+    background-color: #eee;
+    border: 10px solid #30343F;
+    padding: 25px;
+
+    .closer {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        cursor: pointer;
+    }
+}
+
+@media screen and (min-device-width: $maxMobileWidth) {
+    .popup {
+        width: auto;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+    }
+}

@@ -1,0 +1,10 @@
+.nf6-table {
+    display: table;
+    .nf6-row {
+        display: table-row;
+        .nf6-cell {
+            display: table-cell;
+            padding: 0.25em;
+        }
+    }
+}

@@ -1,0 +1,54 @@
+@import "../../scss/variables";
+#User {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    .title {
+        text-transform: capitalize;
+        text-align: left;
+        font-size: 38px;
+        margin: 10px 0 10px 0;
+        width: 100%;
+    }
+
+    .user-statistics {
+        margin: 1em 0 1em 0;
+        display: flex;
+        justify-content: space-between;
+        .flex-row {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            align-content: left;
+        }
+        .statistics-item {
+            .statistics-item-label {
+                font-weight: bold;
+                margin-right: 0.2em;
+            }
+        }
+    }
+
+    > .half-container {
+        flex: 1;
+        > h2 {
+            text-align: left;
+            border-bottom: 1px solid grey;
+            margin: 25px 0 0 0;
+        }
+    }
+
+    .nf6-table {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-device-width: $maxMobileWidth) {
+    #User {
+        flex-direction: column;
+
+        > .half-container:not(:first-child) {
+            margin-top: 15px;
+        }
+    }
+}

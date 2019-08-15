@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import "./scss/_variables";
+* {
+  box-sizing: border-box;
+}
+
+body {
+  height: 100%;
+}
+
+.App {
+  text-align: center;
+  font-family: 'Roboto'
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+  pointer-events: none;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+main {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  padding: 15px;
+}
+
+.background-fade {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(70, 70, 70, 0.3)
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+@media screen
+    and (min-device-width: 1200px) {
+        main {
+            margin: auto;
+            max-width: 1024px;
+            justify-content: space-between;
+            padding: 0;
+        }
+    }

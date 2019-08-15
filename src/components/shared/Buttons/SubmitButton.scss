@@ -1,0 +1,13 @@
+.submit-button {
+    cursor: pointer;
+    display: block;
+    border: none;
+    padding: 10px;
+    text-transform: capitalize;
+    background-color: orange;
+    margin-top: 15px;
+    font-size: 20px;
+    &:disabled {
+        background-color: gray;
+    }
+}
