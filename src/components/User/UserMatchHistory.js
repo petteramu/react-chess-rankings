@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setUserMatchHistoryFilter } from '../../store/actions'
+import { setUserMatchHistoryFilter } from '../../store/ui/actions'
 import MatchHistory from '../shared/MatchHistory/MatchHistory'
 import { MATCHES_PER_PAGE } from '../../configs'
 import './UserMatchHistory.scss'

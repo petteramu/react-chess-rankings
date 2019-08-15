@@ -5,39 +5,6 @@ const RECEIVE_MATCHES = 'RECEIVE_MATCHES'
 const RECEIVE_PLAYERS = 'RECEIVE_PLAYERS'
 const PREVIOUS_PAGE = 'PREVIOUS_PAGE'
 const NEXT_PAGE = 'NEXT_PAGE'
-const HIDE_ADD_GAME_POPUP = 'HIDE_ADD_GAME_POPUP'
-const SHOW_ADD_GAME_POPUP = 'SHOW_ADD_GAME_POPUP'
-const HIDE_ADD_PLAYER_POPUP = 'HIDE_ADD_PLAYER_POPUP'
-const SHOW_ADD_PLAYER_POPUP = 'SHOW_ADD_PLAYER_POPUP'
-const SET_USER_MATCH_HISTORY_FILTER = 'SET_USER_MATCH_HISTORY_FILTER'
-
-function setUserMatchHistoryFilter(filter) {
-    return {
-        type: SET_USER_MATCH_HISTORY_FILTER,
-        payload: filter
-    }
-}
-
-function showAddGamePopup() {
-    return {
-        type: SHOW_ADD_GAME_POPUP
-    }
-}
-function hideAddGamePopup() {
-    return {
-        type: HIDE_ADD_GAME_POPUP
-    }
-}
-function showAddPlayerPopup() {
-    return {
-        type: SHOW_ADD_PLAYER_POPUP
-    }
-}
-function hideAddPlayerPopup() {
-    return {
-        type: HIDE_ADD_PLAYER_POPUP
-    }
-}
 
 function addPlayer(name) {
     return function(dispatch) {
@@ -137,11 +104,6 @@ export {
     RECEIVE_PLAYERS,
     PREVIOUS_PAGE,
     NEXT_PAGE,
-    SHOW_ADD_GAME_POPUP,
-    SHOW_ADD_PLAYER_POPUP,
-    HIDE_ADD_GAME_POPUP,
-    HIDE_ADD_PLAYER_POPUP,
-    SET_USER_MATCH_HISTORY_FILTER,
     receiveMatches,
     receivePlayers,
     requestPlayers,
@@ -150,11 +112,6 @@ export {
     fetchPlayers,
     nextPage,
     previousPage,
-    showAddGamePopup,
-    showAddPlayerPopup,
-    hideAddGamePopup,
-    hideAddPlayerPopup,
     addPlayer,
-    submitGame,
-    setUserMatchHistoryFilter
+    submitGame
 }

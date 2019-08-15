@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import Popup from './Popup'
-import { addPlayer, hideAddPlayerPopup } from '../../../store/actions';
+import { addPlayer } from '../../../store/actions'
+import { hideAddPlayerPopup } from '../../../store/ui/actions'
 import SubmitButton from '../Buttons/SubmitButton'
 import './AddPlayerPopup.scss'
 

@@ -1,5 +1,6 @@
 import { MATCHES_PER_PAGE } from '../configs'
 import { combineReducers } from 'redux'
+import ui from './ui/reducers'
 import {
     REQUEST_PLAYERS,
     REQUEST_MATCHES,
@@ -7,34 +8,7 @@ import {
     RECEIVE_PLAYERS,
     PREVIOUS_PAGE,
     NEXT_PAGE,
-    SHOW_ADD_GAME_POPUP,
-    HIDE_ADD_GAME_POPUP,
-    SHOW_ADD_PLAYER_POPUP,
-    HIDE_ADD_PLAYER_POPUP,
-    SET_USER_MATCH_HISTORY_FILTER
 } from './actions'
-
-const initialUiState = {
-    addGameVisible: false,
-    addPlayerVisible: false,
-    userMatchFilter: undefined,
-}
-function ui(state = initialUiState, action) {
-    switch(action.type) {
-        case SHOW_ADD_GAME_POPUP:
-            return Object.assign({}, state, { addGameVisible: true })
-        case HIDE_ADD_GAME_POPUP:
-            return Object.assign({}, state, { addGameVisible: false })
-        case SHOW_ADD_PLAYER_POPUP:
-            return Object.assign({}, state, { addPlayerVisible: true })
-        case HIDE_ADD_PLAYER_POPUP:
-            return Object.assign({}, state, { addPlayerVisible: false })
-        case SET_USER_MATCH_HISTORY_FILTER:
-            return Object.assign({}, state, { userMatchFilter: action.payload })
-        default:
-            return state
-    }
-}
 
 const initialMatchState = {
     matches: [],

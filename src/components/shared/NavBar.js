@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import './NavBar.scss'
-import { showAddPlayerPopup, showAddGamePopup } from '../../store/actions';
+import { showAddPlayerPopup, showAddGamePopup } from '../../store/ui/actions'
+import { showAddTournamentPopup } from '../../store/ui/actions'
 import { Link } from 'react-router-dom'
 
 class NavBar extends React.Component {
@@ -17,7 +18,13 @@ class NavBar extends React.Component {
                         <div className="navbar-expander-child" onClick={this.props.onAddPlayer}>Add Player</div>
                     </div>
                 </li>
-                <li>Tournaments</li>
+                <li>
+                    Tournaments
+                    <div className="navbar-expander-container">
+                        <div className="navbar-expander-child">List</div>
+                        <div className="navbar-expander-child" onClick={this.props.onAddTournament}>Create</div>
+                    </div>
+                </li>
             </ul>
         </nav>
     }
@@ -26,7 +33,8 @@ class NavBar extends React.Component {
 function mapDispatch(dispatch) {
     return {
         onAddPlayer: () => dispatch(showAddPlayerPopup()),
-        onAddGame: () => dispatch(showAddGamePopup())
+        onAddGame: () => dispatch(showAddGamePopup()),
+        onAddTournament: () => dispatch(showAddTournamentPopup())
     }
 }
 

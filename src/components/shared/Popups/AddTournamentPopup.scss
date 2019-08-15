@@ -1,0 +1,53 @@
+.add-tournament-popup {
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+
+    h1 {
+        margin:.75rem 0 .75rem 0;
+    }
+
+    h3 {
+        margin-bottom: 0.5rem;
+    }
+
+    .player-selector-scroller {
+        max-height: 50vh;
+        overflow-y: scroll;
+    }
+
+    .split-container {
+        flex: 1;
+        display: flex;
+        justify-content: space-between;
+        height: 100%;
+        .half-container {
+            flex: 1;
+            &:first-child {
+                margin-right: 15px;
+            }
+        }
+    }
+    label {
+        font-weight: bold;
+    }
+
+    input[type="checkbox"] {
+        margin-left: 1em;
+        transform: scale(1.5)
+    }
+
+    input[type="text"] {
+        display: block;
+        padding: 10px;
+        width: 100%;
+    }
+
+    .options-item:not(:first-of-type) {
+        margin-top: 1.5em;
+    }
+
+    .submit-button {
+        width: 100%;
+    }
+}

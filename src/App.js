@@ -6,21 +6,23 @@ import NavBar from './components/shared/NavBar'
 import Home from './components/Home/Home'
 import AddPlayerPopup from './components/shared/Popups/AddPlayerPopup';
 import AddGamePopup from './components/shared/Popups/AddGamePopup';
+import AddTournamentPopup from './components/shared/Popups/AddTournamentPopup'
 import User from './components/User/User'
 
 function App(props) {
-  const { showAddPlayerPopup, showAddGamePopup } = props
+  const { showAddPlayerPopup, showAddGamePopup, showAddTournamentPopup } = props
   return (
     <div className="App">
-      <NavBar></NavBar>
+      <NavBar />
       <main>
         <Switch>
           <Route path="/user/:id" component={User} />
           <Route path="/" component={Home} />
         </Switch>
-        { (showAddPlayerPopup || showAddGamePopup) && <div className="background-fade"></div> }
+        { (showAddPlayerPopup || showAddGamePopup || showAddTournamentPopup) && <div className="background-fade"></div> }
         { showAddPlayerPopup && <AddPlayerPopup />}
         { showAddGamePopup && <AddGamePopup />}
+        { showAddTournamentPopup && <AddTournamentPopup />}
       </main>
     </div>
   );
@@ -29,7 +31,8 @@ function App(props) {
 function mapState(state) {
   return {
     showAddPlayerPopup: state.ui.addPlayerVisible,
-    showAddGamePopup: state.ui.addGameVisible
+    showAddGamePopup: state.ui.addGameVisible,
+    showAddTournamentPopup: state.ui.addTournamentVisible
   }
 }
 

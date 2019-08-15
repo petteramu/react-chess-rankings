@@ -1,6 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { hideAddGamePopup, submitGame } from '../../../store/actions';
+import { submitGame } from '../../../store/actions'
+import { hideAddGamePopup } from '../../../store/ui/actions'
 import PlayerSelector from '../PlayerSelector/PlayerSelector'
 import Popup from './Popup'
 import SubmitButton from '../Buttons/SubmitButton'
