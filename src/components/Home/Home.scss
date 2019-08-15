@@ -1,3 +1,5 @@
+@import "../../scss/variables";
+
 #Home {
     display: flex;
     > * {
@@ -5,3 +7,8 @@
     }
 }
 
+@media screen and (max-device-width: $maxMobileWidth) {
+    #Home {
+        flex-direction: column;
+    }
+}

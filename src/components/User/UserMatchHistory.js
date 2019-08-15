@@ -17,9 +17,8 @@ const mapStateToProps = (state, ownProps) => {
     let { matches = [] } = ownProps
     let filter = state.ui.userMatchFilter
     let filteredMatches = (filter) ? matches.filter((match) => match.white.key === filter || match.black.key === filter ) : matches
-    matches = sliceMatches(state.matches.pageNumber, filteredMatches)
     return {
-        matches,
+        matches: filteredMatches,
         isFetching: state.matches.isFetching || state.players.isFetching,
         pageNumber: state.matches.pageNumber,
         players: state.players.players
