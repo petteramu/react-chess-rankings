@@ -1,6 +1,7 @@
 import { MATCHES_PER_PAGE } from '../configs'
 import { combineReducers } from 'redux'
 import ui from './ui/reducers'
+import tournament from './tournaments/reducers'
 import {
     REQUEST_PLAYERS,
     REQUEST_MATCHES,
@@ -66,6 +67,7 @@ function players(state = initialPlayerState, action) {
 const rankingsApp = combineReducers({
     matches,
     players,
-    ui
+    ui,
+    tournament
 })
 export default rankingsApp

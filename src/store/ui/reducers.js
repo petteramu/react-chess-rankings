@@ -11,7 +11,7 @@ import {
 const initialUiState = {
     addGameVisible: false,
     addPlayerVisible: false,
-    addTournamentVisible: true,
+    addTournamentVisible: false,
     userMatchFilter: undefined
 }
 function ui(state = initialUiState, action) {

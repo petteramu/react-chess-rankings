@@ -1,18 +1,22 @@
-import { REQUEST_TOURNAMENTS, RECEIVE_TOURNAMENTS } from './actions'
+import { REQUEST_TOURNAMENTS, RECEIVE_TOURNAMENTS, RECEIVE_ACTIVE_TOURNAMENT } from './actions'
 
 const initialState = {
-    tournaments: []
+    tournaments: [],
+    details: undefined,
+    isFetching: false
 }
 
-function tournaments(state = initialState, action) {
+function tournament(state = initialState, action) {
     switch(action.type) {
         case REQUEST_TOURNAMENTS:
             return Object.assign({}, state, { isFetching: true })
         case RECEIVE_TOURNAMENTS:
-            return Object.assign({}, state, { tournaments: payload, isFetching: false })
+            return Object.assign({}, state, { tournaments: action.payload, isFetching: false })
+        case RECEIVE_ACTIVE_TOURNAMENT:
+            return Object.assign({}, state, { details: action.payload })
         default:
             return state
     }
 }
 
-export default tournaments
+export default tournament

@@ -38,7 +38,7 @@ class AddTournamentPopup extends React.Component {
     onSubmitClicked() {
         let tournamentObject = Object.assign({}, this.state)
         if(!tournamentObject.name) tournamentObject.name = this.defaultName
-        this.props.onSubmit(this.state)
+        this.props.onSubmit(tournamentObject)
     }
 
     render () {

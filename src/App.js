@@ -8,6 +8,7 @@ import AddPlayerPopup from './components/shared/Popups/AddPlayerPopup';
 import AddGamePopup from './components/shared/Popups/AddGamePopup';
 import AddTournamentPopup from './components/shared/Popups/AddTournamentPopup'
 import User from './components/User/User'
+import Tournament from './components/Tournament/Tournament'
 
 function App(props) {
   const { showAddPlayerPopup, showAddGamePopup, showAddTournamentPopup } = props
@@ -16,6 +17,8 @@ function App(props) {
       <NavBar />
       <main>
         <Switch>
+          <Route path="/tournament/:id" component={Tournament} />
+          <Route path="/tournament/" component={Tournament} />
           <Route path="/user/:id" component={User} />
           <Route path="/" component={Home} />
         </Switch>
@@ -25,7 +28,7 @@ function App(props) {
         { showAddTournamentPopup && <AddTournamentPopup />}
       </main>
     </div>
-  );
+  )
 }
 
 function mapState(state) {

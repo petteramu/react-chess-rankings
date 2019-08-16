@@ -19,9 +19,9 @@ class NavBar extends React.Component {
                     </div>
                 </li>
                 <li>
-                    Tournaments
+                    <Link to="/tournament">Tournaments</Link>
                     <div className="navbar-expander-container">
-                        <div className="navbar-expander-child">List</div>
+                        <div className="navbar-expander-child"><Link to="/tournament">List</Link></div>
                         <div className="navbar-expander-child" onClick={this.props.onAddTournament}>Create</div>
                     </div>
                 </li>
