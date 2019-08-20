@@ -24,6 +24,7 @@
             padding: 5px;
             text-transform: capitalize;
             display: inline-block;
+            text-align: center;
             
             &.loser {
                 color: darkred;
@@ -39,6 +40,7 @@
             display: inline-block;
             margin: auto;
             .match-score-container {
+                text-align: center;
                 display: flex;
                 flex-direction: column;
                 font-size: 12px;

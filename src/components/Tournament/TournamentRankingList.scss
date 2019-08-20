@@ -1,0 +1,11 @@
+.tournament-ranking-list-component {
+    display: inline-table;
+    h1 {
+        text-align: left;
+    }
+
+    .ranking-table-cell:nth-child(2) {
+        text-align: left;
+        text-transform: capitalize;
+    }
+}

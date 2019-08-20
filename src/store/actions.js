@@ -18,12 +18,12 @@ function addPlayer(name) {
     }
 }
 
-function submitGame({ white, black, winner }) {
+function submitGame({ white, black, winner, id }) {
     return function(dispatch) {
         fetch(`${url}/game`, {
             method: 'POST',
             mode: 'cors',
-            body: JSON.stringify({ white, black, winner })
+            body: JSON.stringify({ white, black, winner, id })
         })
         .then((response) => response.json(), (error) => console.log(error))
         .then((jsonResponse) => {

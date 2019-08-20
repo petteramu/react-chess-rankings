@@ -5,6 +5,7 @@ import { hideAddGamePopup } from '../../../store/ui/actions'
 import PlayerSelector from '../PlayerSelector/PlayerSelector'
 import Popup from './Popup'
 import SubmitButton from '../Buttons/SubmitButton'
+import InlineButton from '../Buttons/InlineButton'
 import './AddGamePopup.scss'
 
 class AddGamePopup extends React.Component {
@@ -57,9 +58,9 @@ class AddGamePopup extends React.Component {
                         <div><PlayerSelector maxSelected="1" players={players} onSelectionChanged={this.setBlack}/></div>
                     </div>
                     <div className="winnerContainer">
-                        <div className={`inline-button ${(winner === 'white') ? 'active' : ''}`} onClick={this.setWinner.bind(this, 'white')}>White</div>
-                        <div className={`inline-button ${(winner === 'remis') ? 'active' : ''}`} onClick={this.setWinner.bind(this, 'remis')}>Remis</div>
-                        <div className={`inline-button ${(winner === 'black') ? 'active' : ''}`} onClick={this.setWinner.bind(this, 'black')}>Black</div>
+                        <InlineButton active={winner === 'white'} onClick={this.setWinner.bind(this, 'white')}>White</InlineButton>
+                        <InlineButton active={winner === 'remis'} onClick={this.setWinner.bind(this, 'remis')}>Remis</InlineButton>
+                        <InlineButton active={winner === 'black'} onClick={this.setWinner.bind(this, 'black')}>Black</InlineButton>
                     </div>
                     <SubmitButton onClick={this.onClick} disabled={(white && black && winner) ? false : true}>
                         Submit

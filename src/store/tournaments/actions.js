@@ -19,6 +19,22 @@ const receiveActiveTournament = (tournament) => {
     }
 }
 
+function submitTournamentGame({ white, black, winner, id }) {
+    return function(dispatch, getState) {
+        fetch(`${url}/game`, {
+            method: 'POST',
+            mode: 'cors',
+            body: JSON.stringify({ white, black, winner, id })
+        })
+        .then((response) => response.json(), (error) => console.log(error))
+        .then((jsonResponse) => {
+            const tournament = (getState().tournament) ? getState().tournament.details : null
+            if(tournament)
+                dispatch(fetchTournamentDetails(tournament.id))
+        })
+    }
+}
+
 function fetchTournaments() {
     return function(dispatch) {
         dispatch(requestTournaments())
@@ -28,7 +44,12 @@ function fetchTournaments() {
             mode: 'cors'
         })
         .then((response) => response.json(), (error) => console.log(error))
-        .then((jsonResponse) => dispatch(receiveTournaments(jsonResponse)))
+        .then((jsonResponse) => {
+            if(typeof jsonResponse === 'object')
+                dispatch(receiveTournaments(jsonResponse))
+            else
+                dispatch(receiveTournaments())
+        })
     }
 }
 
@@ -76,5 +97,6 @@ export {
     fetchTournaments,
     createTournament,
     receiveActiveTournament,
-    fetchTournamentDetails
+    fetchTournamentDetails,
+    submitTournamentGame
 }

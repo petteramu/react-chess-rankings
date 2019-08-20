@@ -13,7 +13,7 @@ function tournament(state = initialState, action) {
         case RECEIVE_TOURNAMENTS:
             return Object.assign({}, state, { tournaments: action.payload, isFetching: false })
         case RECEIVE_ACTIVE_TOURNAMENT:
-            return Object.assign({}, state, { details: action.payload })
+            return Object.assign({}, state, { details: action.payload, isFetching: false })
         default:
             return state
     }

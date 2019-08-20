@@ -14,10 +14,12 @@ class Tournament extends React.Component {
                 { tournamentId && <TournamentDetails tournamentId={tournamentId}></TournamentDetails>}
                 { !tournamentId && 
                     <div>
-                        <div>Tournaments</div>
-                        { tournaments.map(tournament =>
-                            <Link to={`/tournament/${tournament.id}`}>{tournament.tournamentName}</Link>
-                        )}
+                        <h1>Tournaments</h1>
+                        <div class="tournament-list">
+                            { tournaments.map(tournament =>
+                                <Link to={`/tournament/${tournament.id}`}>- {tournament.tournamentName}</Link>
+                            )}
+                        </div>
                     </div>
                 }
             </div>

@@ -1,12 +1,12 @@
 import React from 'react'
-import HomeRankingListComponent from './HomeRankingTable'
+import HomeRankingListComponent from './RankingListComponent'
 import HomeMatchHistory from './HomeMatchHistory'
 import './Home.scss'
 
 const Home = function() {
     return (
         <div id="Home">
-            <HomeRankingListComponent></HomeRankingListComponent>
+            <div><HomeRankingListComponent /></div>
             <HomeMatchHistory></HomeMatchHistory>
         </div>
     )

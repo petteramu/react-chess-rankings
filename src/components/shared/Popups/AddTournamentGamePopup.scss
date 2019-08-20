@@ -1,0 +1,18 @@
+#TournamentGamePopup {
+    h1 {
+        text-align: center;
+    }
+    .winnerContainer {
+        display: flex;
+        > * {
+            flex: 1;
+            text-align: center;
+            &:nth-child(2) {
+                margin: 0 15px 0 15px;
+            }
+        }
+    }
+    .submit-button {
+        width: 100%;
+    }
+}

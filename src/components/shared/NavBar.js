@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom'
 class NavBar extends React.Component {
 
     render () {
+        let rootTournamentLink = (this.props.latestTournamentId) ? `/tournament/${this.props.latestTournamentId}` : '/tournament'
         return <nav className="main-navbar">
             <ul>
                 <li><Link to="/">Nf6 & Chill</Link></li>
@@ -19,9 +20,9 @@ class NavBar extends React.Component {
                     </div>
                 </li>
                 <li>
-                    <Link to="/tournament">Tournaments</Link>
+                    <Link to={rootTournamentLink}>Tournaments</Link>
                     <div className="navbar-expander-container">
-                        <div className="navbar-expander-child"><Link to="/tournament">List</Link></div>
+                    <Link to="/tournament"><div className="navbar-expander-child">List</div></Link>
                         <div className="navbar-expander-child" onClick={this.props.onAddTournament}>Create</div>
                     </div>
                 </li>
@@ -38,4 +39,17 @@ function mapDispatch(dispatch) {
     }
 }
 
-export default connect(null, mapDispatch)(NavBar)
+function mapState(state) {
+    let tournaments = (state.tournament && state.tournament.tournaments) ? state.tournament.tournaments : []
+    let latest = undefined
+    tournaments.forEach((tournament) => {
+        if(latest === undefined || tournament.created > latest.created)
+            latest = tournament
+    })
+
+    return {
+        latestTournamentId: (latest) ? latest.id : null
+    }
+}
+
+export default connect(mapState, mapDispatch)(NavBar)
