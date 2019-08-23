@@ -38,7 +38,6 @@ class RankingListComponent extends React.Component {
         const headerData = ['#', 'MMR', 'Name', 'Streak', 'W', 'R', 'L']
         return (
             <div className="ranking-list-component">
-                <h1>Rankings</h1>
                 <RankingTable headerData={headerData} {...this.props}></RankingTable>
             </div>
         )

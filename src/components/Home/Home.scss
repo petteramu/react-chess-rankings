@@ -1,14 +1,14 @@
 @import "../../scss/variables";
 
 #Home {
-    display: flex;
-    > * {
-        flex: 1;
-    }
+    display: grid;
+    grid-gap: 15px;
+    grid-template-columns: auto auto;
+    padding-top: 25px;
 }
 
 @media screen and (max-device-width: $maxMobileWidth) {
     #Home {
-        flex-direction: column;
+        grid-template-columns: auto;
     }
 }

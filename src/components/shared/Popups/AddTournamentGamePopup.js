@@ -10,9 +10,10 @@ import './AddTournamentGamePopup.scss'
 class AddTournamentGamePopup extends React.Component {
     constructor(props) {
         super(props)
-        this.state = { winner: undefined }
+        this.state = { winner: undefined, needsConfirmation: props.match.winner !== undefined }
         this.onCloseClicked = this.onCloseClicked.bind(this)
         this.onSubmitClicked = this.onSubmitClicked.bind(this)
+        this.confirm = this.confirm.bind(this)
     }
 
     onCloseClicked () {
@@ -33,6 +34,10 @@ class AddTournamentGamePopup extends React.Component {
         this.props.submit(match)
     }
 
+    confirm() {
+        this.setState({ needsConfirmation: false })
+    }
+
     render() {
         const white = this.props.match.white.key
         const black = this.props.match.black.key
@@ -46,6 +51,14 @@ class AddTournamentGamePopup extends React.Component {
                         <InlineButton active={this.state.winner === 'black'} onClick={this.onChange.bind(this, 'black')}>{black}</InlineButton>
                     </div>
                     <SubmitButton onClick={this.onSubmitClicked}>Submit</SubmitButton>
+                    { this.state.needsConfirmation && <div class="confirm-container">
+                        <h2>Are you sure?</h2>
+                        <p>
+                            <strong>This will DELETE the previous result for this match, and submit a new one.</strong>
+                        </p>
+                        <InlineButton onClick={this.confirm}>Yes</InlineButton>
+                        <InlineButton onClick={this.onCloseClicked}>No</InlineButton>
+                    </div> }
                 </div>
             </Popup>
         )

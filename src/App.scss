@@ -8,8 +8,13 @@ body {
   height: 100%;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  text-shadow: 1px 1px 0px #ccc;
+}
+
 .App {
-  font-family: 'Roboto'
+  font-family: 'Roboto';
+  padding-bottom: 15px;
 }
 
 .App-logo {

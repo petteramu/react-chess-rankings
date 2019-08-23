@@ -1,16 +1,23 @@
 @import "../../scss/variables";
 
 #TournamentDetails {
+    .round-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-column-gap: 15px;
+        width: 100%;
+    }
     
     .tournament-round {
         display: inline-block;
-        margin-right: 10px;
     }
 
     .tournament-info {
+        display: grid;
+        grid-template-columns: 1fr;
         margin-left: 15px;
         div {
-            line-height: 30px;
+            line-height: 20px;
         }
     }
 
@@ -23,20 +30,48 @@
     }
 }
 
+@media screen and (max-device-width: $maxMobileWidth) {
+    #TournamentDetails {
+        h1 {
+            margin: 0 0 15px 0;
+        }
+    }
+}
 @media screen and (max-device-width: $smallMobileWidth) {
     #TournamentDetails {
         .split-container {
             flex-direction: column;
         }
+        .round-container {
+             grid-template-columns: 1fr;
+        }
 
         .tournament-info {
-            margin-top: 15px;
+            margin-top: 10px;
             margin-left: 0;
-            div {
-                margin-right: 15px;
-                display: inline-block;
-                line-height: 30px;
+            grid-template-columns: 1fr 1fr;
+            font-size: 0.85em;
+        }
+    }
+}
+
+@media screen and (max-device-width: $maxMobileWidth) and (min-device-width: $smallMobileWidth) {
+    #TournamentDetails {
+       .round-container {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .tournament-info {
+            grid-template-columns: 1fr;
+            grid-column-gap: 15px;
+            grid-row-gap: 0px;
+            .verbose-info {
+                display: none;
+            }
+            .non-verbose-info {
+                text-transform: capitalize;
             }
         }
     }
+
 }

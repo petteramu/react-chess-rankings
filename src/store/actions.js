@@ -6,6 +6,20 @@ const RECEIVE_PLAYERS = 'RECEIVE_PLAYERS'
 const PREVIOUS_PAGE = 'PREVIOUS_PAGE'
 const NEXT_PAGE = 'NEXT_PAGE'
 
+function deleteGame(id) {
+    return function(dispatch) {
+        fetch(`${url}/game/${id}`, {
+            method: 'DELETE',
+            mode: 'cors',
+        })
+        .then((response) => response.json(), (error) => console.log(error))
+        .then((jsonResponse) => {
+            dispatch(fetchPlayers())
+            dispatch(fetchMatches())
+        })
+    }
+}
+
 function addPlayer(name) {
     return function(dispatch) {
         fetch(`${url}/player`, {
@@ -113,5 +127,6 @@ export {
     nextPage,
     previousPage,
     addPlayer,
-    submitGame
+    submitGame,
+    deleteGame
 }

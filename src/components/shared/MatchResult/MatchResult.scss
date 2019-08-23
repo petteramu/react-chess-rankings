@@ -1,0 +1,107 @@
+@import "../../../scss/variables";
+
+.match-result {
+    width: 100%;
+    box-shadow: $defaultBoxShadow;
+    background-color: #efefef;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    border: 1px solid #eaeaea;
+    border-top: none;
+
+    display: grid;
+    grid-template: 3.8em / 1.25em 1fr 4em 1fr 1.25em;
+
+    &.with-result {
+        grid-template-rows: 2.8em 1em;
+    }
+
+    .info-row {
+        background-color: #ececec;
+        grid-row: 2;
+        text-align: center;
+        color: #a1a1a1;
+        height: 1em;
+        font-size: 0.75em;
+        &.white-change {
+            grid-column: 2;
+        }
+    
+        &.date {
+            grid-column: 3;
+        }
+        
+        &.black-change {
+            grid-column: 4;
+        }
+    }
+
+    &:first-of-type {
+        border-top: 1px solid #eaeaea;
+    }
+
+    &:hover, &:nth-child(even):hover {
+        background-color: #e3e3e3;
+        .info-row {
+            background-color: #d9d9d9;
+        }
+    }
+
+    &:nth-child(even) {
+        background-color: #f6f6f6;
+        .info-row {
+            background-color: #eee;
+        }
+    }
+
+    .match-result-player {
+        text-transform: capitalize;
+        padding: 5px;
+        flex: 3;
+        align-items: center;
+        text-align: center;
+        &.white {
+            grid-column: 2;
+        }
+        &.black {
+            grid-column: 4; 
+        }
+    }
+
+    .match-result-vs {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        height: 100%;
+        .vs {
+            grid-row-start: 2;
+        }
+        .date {
+            grid-row-start: 3;
+            font-size: 0.65em;
+        }
+    }
+    
+    .match-result-score {
+        background: grey;
+        height: 100%;
+
+        &.white {
+            grid-column: 1;
+            grid-row: 1 / span 2;
+        }
+        &.black {
+            grid-column: 5;
+            grid-row: 1 / span 2;
+        }
+
+        &.winner {
+            background: green;
+        }
+        &.loser {
+            background: darkred;
+        }
+    }
+}

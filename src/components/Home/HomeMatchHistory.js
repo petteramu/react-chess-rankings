@@ -24,7 +24,6 @@ class HomeMatchHistory extends React.Component {
         const props = this.props
         return (
             <div className="match-history-component">
-                <h1>Latest maches</h1>
                 <MatchHistory {...props}></MatchHistory>
             </div>
         )

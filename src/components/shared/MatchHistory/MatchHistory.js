@@ -1,8 +1,9 @@
 import React from 'react'
-import MatchResult from './MatchResult'
-import MatchHistoryButton from './MatchHistoryButton'
+import MatchResult from '../MatchResult/MatchResult'
 import './MatchHistory.scss'
 import { nextPage, previousPage } from '../../../store/actions'
+import { showDeleteMatchPopup } from '../../../store/ui/actions'
+import { connect } from 'react-redux';
 
 class MatchHistory extends React.Component {
     constructor (props) {
@@ -43,7 +44,7 @@ class MatchHistory extends React.Component {
         const isFetching = this.props.isFetching
         if(isFetching) return <h2>Loading...</h2>
 
-        const page = this.props.matches.map((data) => <MatchResult style={`opacity: ${isFetching ? 0.5 : 1}`} key={data.id} match={data}></MatchResult>)
+        const page = this.props.matches.map((data) => <MatchResult onClick={this.props.showDeleteMatchPopup} style={`opacity: ${isFetching ? 0.5 : 1}`} key={data.id} match={data} />)
         return (
                 <ul ref={this.listRef} className="match-history" style={{height: this.state.listPos + "px"}}>
                     { page }
@@ -52,4 +53,10 @@ class MatchHistory extends React.Component {
     }
 }
 
-export default MatchHistory
+function mapDispatch(dispatch) {
+    return {
+        showDeleteMatchPopup: (match) => dispatch(showDeleteMatchPopup(match))
+    }
+}
+
+export default connect(null, mapDispatch)(MatchHistory)

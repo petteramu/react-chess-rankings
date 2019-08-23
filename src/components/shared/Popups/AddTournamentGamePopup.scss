@@ -15,4 +15,22 @@
     .submit-button {
         width: 100%;
     }
+
+    .confirm-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        padding: 15px;
+
+        display: grid;
+        grid-column-gap: 15px;
+        grid-template-columns: 1fr 1fr;
+        p, h2 {
+            grid-column: 1 / span 2;
+            color: white;
+        }
+    }
 }

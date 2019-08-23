@@ -20,18 +20,30 @@ const receiveActiveTournament = (tournament) => {
 }
 
 function submitTournamentGame({ white, black, winner, id }) {
-    return function(dispatch, getState) {
-        fetch(`${url}/game`, {
-            method: 'POST',
-            mode: 'cors',
-            body: JSON.stringify({ white, black, winner, id })
-        })
-        .then((response) => response.json(), (error) => console.log(error))
-        .then((jsonResponse) => {
+    async function deleteGameIfNecessary(id, allMatches) {
+        let existing = allMatches.find(match => match.id === id)
+        if(existing) {
+            await fetch(`${url}/game/${id}`, {
+                method: 'DELETE',
+                mode: 'cors',
+            })
+        }
+    }
+    return async function(dispatch, getState) {
+        try {
+            await deleteGameIfNecessary(id, getState().matches.matches)
+            await fetch(`${url}/game`, {
+                method: 'POST',
+                mode: 'cors',
+                body: JSON.stringify({ white, black, winner, id })
+            })
             const tournament = (getState().tournament) ? getState().tournament.details : null
             if(tournament)
                 dispatch(fetchTournamentDetails(tournament.id))
-        })
+        }
+        catch(error) {
+            console.log(error)
+        }  
     }
 }
 

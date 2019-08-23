@@ -7,15 +7,23 @@ class Popup extends React.Component {
         super(props)
         this.ref = React.createRef()
         this.onOutsideClicked = this.onOutsideClicked.bind(this)
+        this.onKeyDown = this.onKeyDown.bind(this)
     }
 
     componentDidMount() {
         if(this.props.onCloseClicked === undefined) return
         document.addEventListener("mousedown", this.onOutsideClicked)
+        document.addEventListener("keydown", this.onKeyDown)
     }
 
     componentWillUnmount() {
         document.removeEventListener("mousedown", this.onOutsideClicked)
+        document.removeEventListener("keydown", this.onKeyDown)
+    }
+
+    onKeyDown(e) {
+        if(e.key === 'Escape')
+            this.props.onCloseClicked()
     }
 
     onOutsideClicked (event) {

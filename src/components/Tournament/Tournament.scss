@@ -1,12 +1,30 @@
 @import "../../scss/variables";
 
 #tournament {
-    h1 {
+    width: 100%;
+    > h1 {
         text-align: left;
+        border-bottom: 4px orange solid;
     }
 
     .tournament-list {
-        font-size: 20px;
-        font-weight: bold;
+        strong {
+            font-size: 20px;
+        }
+        width: 100%;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-row-gap: 15px;
+
+        .tournamentLink {
+            padding: 15px;
+            background-color: #eee;
+            box-shadow: 1px 1px 3px #ddd;
+            width: 100%;
+
+            &:hover {
+                background-color: #ddd;
+            }
+        }
     }
 }

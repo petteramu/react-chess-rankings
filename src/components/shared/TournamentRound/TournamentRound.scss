@@ -1,65 +1,13 @@
 .tournament-round {
+    width: 100%;
     vertical-align: top;
     h3 {
         text-align: left;
         margin: 15px 5px 5px 0;
     }
-    .tournament-round-match {
-        width: 300px;
-        box-shadow: 2px 2px 2px #e1e1e1;
-        height: 50px;
-        background-color: #efefef;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        position: relative;
-        border: 1px solid #eaeaea;
-        border-top: none;
-
-        &:first-of-type {
-            border-top: 1px solid #eaeaea;
-        }
-
-        &:hover, &:nth-child(even):hover {
-            background-color: #e3e3e3;
-        }
-
-        &:nth-child(even) {
-            background-color: #f6f6f6;
-        }
     
-        .tournament-round-match-player {
-            padding: 5px;
-            text-transform: capitalize;
-            padding: 3px;
-            flex: 3;
-            display: flex;
-            align-items: center;
-            text-align: center;
-        }
-    
-        .tournament-round-match-vs {
-            padding: 5px;
-            flex: 1;
-            margin: 0 5px 0 5px;
-            text-align: center;
-        }
-        
-        .tournament-round-match-score {
-            display: flex;
-            align-items: center;
-            padding: 5px;
-            height: 100%;
-            width: 22px;
-            color: white;
-            background: grey;
-
-            &.winner {
-                background: green;
-            }
-            &.loser {
-                background: darkred;
-            }
-        }
+    // Margin between matches
+    > * {
+        margin-top: 0.3em;
     }
 }

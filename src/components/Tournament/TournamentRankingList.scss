@@ -1,3 +1,5 @@
+@import "../../scss/variables";
+
 .tournament-ranking-list-component {
     display: inline-table;
     h1 {
@@ -7,5 +9,24 @@
     .ranking-table-cell:nth-child(2) {
         text-align: left;
         text-transform: capitalize;
+    }
+}
+
+@media screen and (max-device-width: $smallMobileWidth) {
+    #tournament {
+        .ranking-table-header {
+            .ranking-table-cell:last-child {
+                font-size: 0;
+                &:first-letter {
+                    font-size: 1rem;
+                }
+            }
+        
+        }
+        .ranking-table-row {
+            .ranking-table-cell:last-child {
+                text-align: center;
+            }
+        }
     }
 }
