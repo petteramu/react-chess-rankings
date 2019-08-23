@@ -1,4 +1,6 @@
 import { url } from '../../configs/LambdaConfig'
+import { push } from 'connected-react-router';
+import { hideAddTournamentPopup } from '../ui/actions';
 
 const REQUEST_TOURNAMENTS = 'REQUEST_TOURNAMENTS'
 const RECEIVE_TOURNAMENTS = 'RECEIVE_TOURNAMENTS'
@@ -83,7 +85,10 @@ function createTournament(tournament) {
             body: JSON.stringify(body)
         })
         .then((response) => response.json(), (error) => console.log(error))
-        .then((jsonResponse) => dispatch(fetchTournaments()))
+        .then((jsonResponse) => {
+            dispatch(hideAddTournamentPopup())
+            dispatch(push(`/tournament/${jsonResponse.id}`))
+        })
     }
 }
 

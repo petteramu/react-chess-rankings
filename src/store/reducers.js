@@ -1,5 +1,5 @@
-import { MATCHES_PER_PAGE } from '../configs'
 import { combineReducers } from 'redux'
+import { connectRouter } from 'connected-react-router'
 import ui from './ui/reducers'
 import tournament from './tournaments/reducers'
 import {
@@ -7,8 +7,6 @@ import {
     REQUEST_MATCHES,
     RECEIVE_MATCHES,
     RECEIVE_PLAYERS,
-    PREVIOUS_PAGE,
-    NEXT_PAGE,
 } from './actions'
 
 const initialMatchState = {
@@ -28,16 +26,6 @@ function matches(state = initialMatchState, action) {
 
         case REQUEST_MATCHES:
             return Object.assign({}, state, { isFetching: true })
-
-        case NEXT_PAGE:
-            let pageNumber = state.pageNumber
-            let maxPageNumber = Math.ceil(state.matches.length / MATCHES_PER_PAGE)
-            let nextPageNumber = Math.min(maxPageNumber, pageNumber + 1)
-            return Object.assign({}, state, { pageNumber: nextPageNumber })
-
-        case PREVIOUS_PAGE:
-            let prevPageNumber = Math.max(0, state.pageNumber - 1)
-            return Object.assign({}, state, { pageNumber: prevPageNumber })
 
         default:
             return state
@@ -64,10 +52,11 @@ function players(state = initialPlayerState, action) {
     }
 }
 
-const rankingsApp = combineReducers({
+const createReducers = (history) => combineReducers({
+    router: connectRouter(history),
     matches,
     players,
     ui,
     tournament
 })
-export default rankingsApp
+export default createReducers
