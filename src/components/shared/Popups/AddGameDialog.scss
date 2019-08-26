@@ -1,0 +1,8 @@
+.player-selector-container {
+    max-height: 300px;
+    overflow-y: scroll;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-column-gap: 15px;
+    margin-bottom: 15px;
+}

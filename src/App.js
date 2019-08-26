@@ -1,20 +1,20 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from 'react'
+import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
-import './App.scss';
+import PropTypes from 'prop-types'
+import './App.scss'
 import NavBar from './components/shared/Navbar/NavBar'
 import Home from './components/Home/Home'
-import AddPlayerPopup from './components/shared/Popups/AddPlayerPopup';
-import AddGamePopup from './components/shared/Popups/AddGamePopup';
-import AddTournamentPopup from './components/shared/Popups/AddTournamentPopup'
+import AddGameDialog from './components/shared/Popups/AddGameDialog'
+import AddPlayerDialog from './components/shared/Popups/AddPlayerDialog'
+import AddTournamentGameDialog from './components/shared/Popups/AddTournamentGameDialog'
+import AddTournamentDialog from './components/shared/Popups/AddTournamentDialog'
 import User from './components/User/User'
 import Tournament from './components/Tournament/Tournament'
-import AddTournamentGamePopup from './components/shared/Popups/AddTournamentGamePopup'
-import DeleteGamePopup from './components/shared/Popups/DeleteGamePopup';
+import DeleteGameDialog from './components/shared/Popups/DeleteGameDialog'
 
 function App(props) {
-  const { showAddPlayerPopup, showAddGamePopup, showAddTournamentPopup, showAddTournamentGamePopup, showDeleteMatchPopup } = props
-  const popupVisible = showAddPlayerPopup || showAddGamePopup || showAddTournamentPopup || showAddTournamentGamePopup || showDeleteMatchPopup
+  const { showAddPlayerPopup, showAddGamePopup, showAddTournamentGamePopup, showDeleteMatchPopup } = props
   return (
     <div className="App">
       <NavBar />
@@ -25,12 +25,11 @@ function App(props) {
           <Route path="/user/:id" component={User} />
           <Route path="/" component={Home} />
         </Switch>
-        { popupVisible && <div className="background-fade"></div> }
-        { showAddPlayerPopup && <AddPlayerPopup />}
-        { showAddGamePopup && <AddGamePopup />}
-        { showAddTournamentPopup && <AddTournamentPopup />}
-        { showAddTournamentGamePopup && <AddTournamentGamePopup />}
-        { showDeleteMatchPopup && <DeleteGamePopup />}
+        <AddPlayerDialog open={showAddPlayerPopup} />
+        <AddGameDialog open={showAddGamePopup} />
+        <AddTournamentGameDialog open={showAddTournamentGamePopup} />
+        <DeleteGameDialog open={showDeleteMatchPopup} />
+        <AddTournamentDialog />
       </main>
     </div>
   )
@@ -44,6 +43,14 @@ function mapState(state) {
     showAddTournamentGamePopup: state.ui.addTournamentGameVisible,
     showDeleteMatchPopup: state.ui.deleteGameVisible
   }
+}
+
+App.propTypes = {
+  showAddPlayerPopup: PropTypes.bool,
+  showAddGamePopup: PropTypes.bool,
+  showAddTournamentPopup: PropTypes.bool,
+  showAddTournamentGamePopup: PropTypes.bool,
+  showDeleteMatchPopup: PropTypes.bool
 }
 
 export default connect(mapState)(App)

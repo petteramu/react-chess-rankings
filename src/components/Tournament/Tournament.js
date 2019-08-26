@@ -33,7 +33,7 @@ class Tournament extends React.Component {
                 { !tournamentId && 
                     <>
                         <h1>Tournaments</h1>
-                        <div class="tournament-list">
+                        <div className="tournament-list">
                             { tournaments.map(tournament =>
                                 <TournamentItem {...tournament} />
                             )}

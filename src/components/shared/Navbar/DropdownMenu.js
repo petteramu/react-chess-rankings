@@ -58,6 +58,7 @@ class DropdownMenu extends React.Component {
     }
 
     onKeyPress(e) {
+        var currentIndex
         let target = e.target
         switch(e.keyCode) {
             case keyCodes.ENTER:
@@ -66,12 +67,14 @@ class DropdownMenu extends React.Component {
                 this.setState({ selectedIndex: 0 })
                 return
             case keyCodes.DOWN:
-                var currentIndex = this.state.selectedIndex
+                currentIndex = this.state.selectedIndex
                 this.setState({ selectedIndex: currentIndex + 1})
                 return
             case keyCodes.UP:
-                var currentIndex = this.state.selectedIndex
+                currentIndex = this.state.selectedIndex
                 this.setState({ selectedIndex: currentIndex - 1})
+                return
+            default:
                 return
         }   
     }
@@ -82,7 +85,7 @@ class DropdownMenu extends React.Component {
         const { selectedIndex } = this.state
 
         return (
-            <li class="dropdown-menu-listItem">
+            <li className="dropdown-menu-listItem">
                 <div
                     className="dropdown-toggler"
                     tabIndex="0"

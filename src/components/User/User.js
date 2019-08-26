@@ -12,14 +12,13 @@ class User extends React.Component {
     render() {
         const name = this.props.match.params.id
         const { statistics, players, matches } = this.props
-        console.log(this.props)
         return (
             <section id="User">
                 <h1 className="title">{ name }</h1>
                 <div className="half-container">
                     <UserStatistics {...statistics} />
                     <h2>Matchups</h2>
-                    { players && players.map((opponent) => (opponent.name === name) ? null : <OpponentDetails selfName={name} opponent={opponent} />) }
+                    { players && players.map((opponent) => (opponent.name === name) ? null : <OpponentDetails key={opponent.name} selfName={name} opponent={opponent} />) }
                 </div>
                 <div className="half-container">
                     <UserMatchHistory matches={matches} />
@@ -31,7 +30,7 @@ class User extends React.Component {
 
 function UserStatistics(props) {
     let { ranking, peak, wins, remis, losses, whiteWins, whiteRemis, whiteLosses, blackWins, blackRemis, blackLosses } = props
-    
+    const totalGames = wins + remis + losses || 0
     const tableData = [
         ['White:', <InterGamesCell letter="W" amount={whiteWins} />, <InterGamesCell letter="R" amount={whiteRemis} />, <InterGamesCell letter="L" amount={whiteLosses} />],
         ['Black:', <InterGamesCell letter="W" amount={blackWins} />, <InterGamesCell letter="R" amount={blackRemis} />, <InterGamesCell letter="L" amount={blackLosses} />],
@@ -51,7 +50,7 @@ function UserStatistics(props) {
                 </span>
                 <span className="statistics-item">
                     <span className="statistics-item-label">Games:</span>
-                    <span className="statistics-item-content">{ wins + remis + losses }</span>
+                    <span className="statistics-item-content">{ totalGames }</span>
                 </span>
             </div>
             <span className="statistics-item">

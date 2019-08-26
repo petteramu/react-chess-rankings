@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import './PlayerSelector.scss'
 
 function PlayerEntry(props) {
@@ -51,6 +52,12 @@ class PlayerSelector extends React.Component {
             </div>
         )
     }
+}
+
+PlayerSelector.propTypes = {
+    maxSelected: PropTypes.number,
+    players: PropTypes.array.isRequired,
+    onSelectionChanged: PropTypes.func
 }
 
 export default PlayerSelector

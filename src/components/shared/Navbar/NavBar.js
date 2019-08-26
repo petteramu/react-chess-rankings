@@ -52,7 +52,7 @@ class NavBar extends React.Component {
                     </div>
                     <div className={backgroundFadeClass} onClick={ this.props.hideMobileMenu }></div>
                     <ul className={menuListClass}>
-                        { menus.map((menuItem) => <DropdownMenu {...menuItem} />) }
+                        { menus.map((menuItem) => <DropdownMenu key={menuItem.id} {...menuItem} />) }
                     </ul>
                 </div>
             </nav>

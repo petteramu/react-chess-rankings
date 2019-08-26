@@ -26,7 +26,6 @@ class TournamentDetails extends React.Component {
 
     render() {
         const { isFetching, tournamentDetails } = this.props
-        if(isFetching) return <h1>Loading...</h1>
         if(!tournamentDetails) return <h1>Tournament not found...</h1>
 
         const createdString = getReadableDate(new Date(this.props.tournamentDetails.created))

@@ -11,7 +11,7 @@ import { fetchMatches, fetchPlayers } from './store/actions'
 import { fetchTournaments } from './store/tournaments/actions';
 import { createBrowserHistory } from 'history/cjs/history.min';
 import { routerMiddleware, ConnectedRouter } from 'connected-react-router';
-
+import CssBaseline from '@material-ui/core/CssBaseline'
 export const history = createBrowserHistory()
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -22,6 +22,7 @@ store.dispatch(fetchTournaments())
 
 ReactDOM.render(
     <Provider store={store}>
+        <CssBaseline />
         <ConnectedRouter history={history}>
             <App />
         </ConnectedRouter>
