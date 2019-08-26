@@ -55,6 +55,7 @@ function mapDispatch(dispatch) {
 
 function mapState(state) {
     return {
+        open: state.ui.addPlayerVisible,
         takenNames: state.players.players.map(player => player.name.toLowerCase())
     }
 }
@@ -62,7 +63,8 @@ function mapState(state) {
 AddPlayerDialog.propTypes = {
     onSubmit: PropTypes.func,
     onClose: PropTypes.func,
-    takenNames: PropTypes.array
+    takenNames: PropTypes.array,
+    open: PropTypes.bool
 }
 
 export default connect(mapState, mapDispatch)(AddPlayerDialog)

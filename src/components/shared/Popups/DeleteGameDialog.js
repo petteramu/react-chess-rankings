@@ -48,7 +48,8 @@ function AddGameDialog(props) {
 
 function mapState(state) {
     return {
-        match: state.ui.deleteGameData
+        match: state.ui.deleteGameData,
+        open: state.ui.deleteGameVisible
     }
 }
 

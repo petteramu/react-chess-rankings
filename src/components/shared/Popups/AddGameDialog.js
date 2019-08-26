@@ -78,8 +78,8 @@ function AddGameDialog(props) {
 
 function mapState(state) {
     return {
-        addGameVisible: state.ui.addGameVisible,
-        players: state.players.players
+        open: state.ui.addGameVisible,
+        players: state.players.players,
     }
 }
 

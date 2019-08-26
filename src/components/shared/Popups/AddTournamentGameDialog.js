@@ -86,7 +86,8 @@ function AddTournamentGameDialog(props) {
 
 function mapState(state) {
     return {
-        match: state.ui.addTournamentGameData
+        match: state.ui.addTournamentGameData,
+        open: state.ui.addTournamentGameVisible
     }
 }
 
