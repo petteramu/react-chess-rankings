@@ -11,7 +11,10 @@ function AddGameDialog(props) {
     if(!match) return null
 
     const toggleSure = () => setSure(!sure)
-
+    const handleSubmit = () => {
+        submit(match.id)
+        close()
+    }
     const checkboxStyle = {
         'marginRight': 'auto',
         'marginLeft': 0
@@ -37,7 +40,7 @@ function AddGameDialog(props) {
                         />}
                 />
                 <Button onClick={close}>Cancel</Button>
-                <Button disabled={!sure} onClick={submit.bind(this, match)}>Submit</Button>
+                <Button disabled={!sure} onClick={handleSubmit}>Submit</Button>
             </DialogActions>
         </Dialog>
     )
@@ -52,7 +55,7 @@ function mapState(state) {
 function mapDispatch(dispatch) {
     return {
         close: () => dispatch(hideDeleteMatchPopup()),
-        submit: (match) => dispatch(deleteGame(match))
+        submit: (matchId) => dispatch(deleteGame(matchId))
     }
 }
 

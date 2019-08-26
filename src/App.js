@@ -12,6 +12,7 @@ import AddTournamentDialog from './components/shared/Popups/AddTournamentDialog'
 import User from './components/User/User'
 import Tournament from './components/Tournament/Tournament'
 import DeleteGameDialog from './components/shared/Popups/DeleteGameDialog'
+import UpdateTournamentGame from './components/shared/Popups/UpdateTournamentGame';
 
 function App(props) {
   const { showAddPlayerPopup, showAddGamePopup, showAddTournamentGamePopup, showDeleteMatchPopup } = props
@@ -30,6 +31,7 @@ function App(props) {
         <AddTournamentGameDialog open={showAddTournamentGamePopup} />
         <DeleteGameDialog open={showDeleteMatchPopup} />
         <AddTournamentDialog />
+        <UpdateTournamentGame />
       </main>
     </div>
   )

@@ -11,8 +11,12 @@ import {
     SHOW_MOBILE_MENU,
     HIDE_MOBILE_MENU,
     SHOW_DELETE_MATCH_POPUP,
-    HIDE_DELETE_MATCH_POPUP
+    HIDE_DELETE_MATCH_POPUP,
 } from './actions'
+import {
+    SHOW_UPDATE_TOURNAMENT_MATCH_POPUP,
+    HIDE_UPDATE_TOURNAMENT_MATCH_POPUP
+} from '../ui/actions'
 
 const initialUiState = {
     addGameVisible: false,
@@ -23,7 +27,9 @@ const initialUiState = {
     userMatchFilter: undefined,
     mobileMenuVisible: false,
     deleteGameVisible: false,
-    deleteGameData: undefined
+    deleteGameData: undefined,
+    updateTournamentGameData: undefined,
+    updateTournamentGameVisible: false
 }
 function ui(state = initialUiState, action) {
     switch(action.type) {
@@ -53,6 +59,10 @@ function ui(state = initialUiState, action) {
             return Object.assign({}, state, { deleteGameVisible: true, deleteGameData: action.payload })
         case HIDE_DELETE_MATCH_POPUP:
             return Object.assign({}, state, { deleteGameVisible: false, deleteGameData: undefined })
+        case SHOW_UPDATE_TOURNAMENT_MATCH_POPUP:
+            return Object.assign({}, state, { updateTournamentGameVisible: true, updateTournamentGameData: action.payload })
+        case HIDE_UPDATE_TOURNAMENT_MATCH_POPUP:
+            return Object.assign({}, state, { updateTournamentGameVisible: false, updateTournamentGameData: undefined })
         default:
             return state
     }

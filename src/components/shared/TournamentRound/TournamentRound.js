@@ -1,15 +1,16 @@
 import React from 'react'
 import './TournamentRound.scss'
-import { showAddTournamentGamePopup, showDeleteMatchPopup } from '../../../store/ui/actions'
+import { showAddTournamentGamePopup, showUpdateTournamentMatchPopup } from '../../../store/ui/actions'
 import { connect } from 'react-redux'
 import MatchResult from '../MatchResult/MatchResult'
+import { submitTournamentGame } from '../../../store/tournaments/actions';
 
 function TournamentRound(props) {
     const { matches, roundNumber } = props
 
     function onClick(match) {
         if(match.winner)
-            props.removeResult(match)
+            props.updateResult(match)
         else
             props.addResult(match)
     }
@@ -25,7 +26,7 @@ function TournamentRound(props) {
 function mapDispatch(dispatch) {
     return {
         addResult: (match) => dispatch(showAddTournamentGamePopup(match)),
-        removeResult: (match) => dispatch(showDeleteMatchPopup(match))
+        updateResult: (match) => dispatch(showUpdateTournamentMatchPopup(match))
     }
 }
 
