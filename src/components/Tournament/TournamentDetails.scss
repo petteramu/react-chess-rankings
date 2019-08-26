@@ -28,6 +28,10 @@
             vertical-align: top;
         }
     }
+
+    .tournament-ranking-list-component {
+        flex: 2;
+    }
 }
 
 @media screen and (max-device-width: $maxMobileWidth) {

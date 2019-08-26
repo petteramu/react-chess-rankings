@@ -6,7 +6,7 @@ import './Home.scss'
 const Home = function() {
     return (
         <div id="Home">
-            <div><HomeRankingListComponent /></div>
+            <HomeRankingListComponent />
             <HomeMatchHistory></HomeMatchHistory>
         </div>
     )
