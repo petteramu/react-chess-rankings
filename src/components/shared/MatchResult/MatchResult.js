@@ -12,7 +12,7 @@ class MatchResult extends React.Component {
     }
 
     render() {
-        const { match } = this.props
+        const { match, ...other } = this.props
         if(!match) return null
         const { white, black, timestamp } = match
     
@@ -22,7 +22,7 @@ class MatchResult extends React.Component {
         
         const mainClasses = (match.winner) ? "match-result with-result" : "match-result"
         return (
-            <div className={mainClasses} tabIndex="0" onClick={this.props.onClick.bind(this, match)}>
+            <div className={mainClasses} tabIndex="0" onClick={this.props.onClick.bind(this, match)} {...other}>
                 { match.winner && this.getScoreElement('white', match) }
                 <div className="match-result-player white">{ white.key }</div>
                 <div className="match-result-vs">vs</div>

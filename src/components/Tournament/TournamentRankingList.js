@@ -22,7 +22,7 @@ const mapStateToProps = (state) => {
         arr.push(player.losses)
         arr.push(player.points)
         return {
-            link: `/user/${player.name}`,
+            link: `${process.env.PUBLIC_URL}/user/${player.name}`,
             data: arr
         }
     })

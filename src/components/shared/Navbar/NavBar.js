@@ -21,7 +21,7 @@ class NavBar extends React.Component {
     }
 
     render () {
-        let rootTournamentLink = (this.props.latestTournamentId) ? `/tournament/${this.props.latestTournamentId}` : '/tournament'
+        let rootTournamentLink = (this.props.latestTournamentId) ? `${process.env.PUBLIC_URL}/tournament/${this.props.latestTournamentId}` : `${process.env.PUBLIC_URL}/tournament`
         let menuListClass = this.props.mobileMenuVisible ? 'visible-mobile' : 'hidden-mobile'
         let backgroundFadeClass = this.props.mobileMenuVisible ? 'menu-fade visible' : 'menu-fade'
         const { onAddGame, onAddPlayer, onAddTournament } = this.props
@@ -38,24 +38,26 @@ class NavBar extends React.Component {
                 text: "Tournament",
                 children: [
                     { linkTo: rootTournamentLink, text: "Latest", onClick: this.getMenuClickHandler() },
-                    { linkTo: "/tournament", text: "List", onClick: this.getMenuClickHandler() },
+                    { linkTo: `${process.env.PUBLIC_URL}/tournament`, text: "List", onClick: this.getMenuClickHandler() },
                     { linkTo: "#", text: "Create", onClick: this.getMenuClickHandler(onAddTournament)}
                 ]
             },
         ]
         return (
-            <nav className="main-navbar">
-                <div className="container">
-                    <Link className="logo" to="/">Nf6 & Chill</Link>
-                    <div tabIndex="0" className="mobile-expander">
-                        <IoMdMenu onClick={ this.onMenuClicked.bind(this) } size="25" />
+            <>
+                <div className={backgroundFadeClass} onClick={ this.props.hideMobileMenu }></div>
+                <nav className="main-navbar">
+                    <div className="container">
+                        <Link className="logo" to={`${process.env.PUBLIC_URL}/`}>Nf6 & Chill</Link>
+                        <div tabIndex="0" className="mobile-expander">
+                            <IoMdMenu onClick={ this.onMenuClicked.bind(this) } size="25" />
+                        </div>
+                        <ul className={menuListClass}>
+                            { menus.map((menuItem) => <DropdownMenu key={menuItem.id} {...menuItem} />) }
+                        </ul>
                     </div>
-                    <div className={backgroundFadeClass} onClick={ this.props.hideMobileMenu }></div>
-                    <ul className={menuListClass}>
-                        { menus.map((menuItem) => <DropdownMenu key={menuItem.id} {...menuItem} />) }
-                    </ul>
-                </div>
-            </nav>
+                </nav>
+            </>
         )
     }
 }

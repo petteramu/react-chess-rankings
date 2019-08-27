@@ -42,9 +42,9 @@ class MatchHistory extends React.Component {
 
     render () {
         const isFetching = this.props.isFetching
-        if(isFetching) return <h2>Loading...</h2>
+        if(isFetching && !this.props.matches.length) return <h2>Loading...</h2>
 
-        const page = this.props.matches.map((data) => <MatchResult onClick={this.props.showDeleteMatchPopup} style={`opacity: ${isFetching ? 0.5 : 1}`} key={data.id} match={data} />)
+        const page = this.props.matches.map((data) => <MatchResult onClick={this.props.showDeleteMatchPopup.bind(this, data)} style={{opacity: isFetching ? 0.5 : 1}} key={data.id} match={data} />)
         return (
                 <ul ref={this.listRef} className="match-history" style={{height: this.state.listPos + "px"}}>
                     { page }

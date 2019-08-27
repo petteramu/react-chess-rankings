@@ -18,10 +18,10 @@ function App() {
       <NavBar />
       <main>
         <Switch>
-          <Route path="/tournament/:id" component={Tournament} />
-          <Route path="/tournament/" component={Tournament} />
-          <Route path="/user/:id" component={User} />
-          <Route path="/" component={Home} />
+          <Route path={`${process.env.PUBLIC_URL}/tournament/:id`} component={Tournament} />
+          <Route path={`${process.env.PUBLIC_URL}/tournament/`} component={Tournament} />
+          <Route path={`${process.env.PUBLIC_URL}/user/:id`} component={User} />
+          <Route path={`${process.env.PUBLIC_URL}/`} component={Home} />
         </Switch>
         <AddPlayerDialog />
         <AddGameDialog />

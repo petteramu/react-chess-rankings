@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { setUserMatchHistoryFilter } from '../../store/ui/actions'
 import MatchHistory from '../shared/MatchHistory/MatchHistory'
 import './UserMatchHistory.scss'
+import { Select, MenuItem } from '@material-ui/core';
 
 const mapStateToProps = (state, ownProps) => {
     let { matches = [] } = ownProps
@@ -18,29 +19,37 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onFilterChanged: (event) => dispatch(setUserMatchHistoryFilter(event.target.value)),
-        dispatch
+        onFilterChanged: (val) => dispatch(setUserMatchHistoryFilter(val))
     }
 }
 
-class UserMatchHistory extends React.Component {
-    render () {
-        let { players, ...other } = this.props
-        players = [<option value=''>All</option>].concat(players.map((player) => <option key={player.name} value={player.name}>{ player.name }</option>))
-        return (
-            <div className="match-history-component">
-                <div className="match-history-header">
-                    <h1>Latest maches</h1>
-                    <div>
-                        <select onChange={this.props.onFilterChanged}>
-                            { players }
-                        </select>
-                    </div>
-                </div>
-                <MatchHistory {...other}></MatchHistory>
-            </div>
-        )
+function UserMatchHistory(props) {
+    const [filter, setFilter] = useState("All")
+    const handleFilterChange = (e) => {
+        console.log(e)
+        const value = e.target.value
+        setFilter(value)
+        props.onFilterChanged(value === "All" ? "" : value)
     }
+    let { players, ...other } = props
+    players = [<MenuItem value="All">All</MenuItem>].concat(players.map((player) =>
+        <MenuItem key={player.name} value={player.name} style={{"text-transform": "capitalize"}}>{ player.name }</MenuItem>))
+
+    return (
+        <div className="match-history-component">
+            <div className="match-history-header">
+                <h1>Latest maches</h1>
+                <div>
+                    <Select
+                        value={filter}
+                        onChange={handleFilterChange}>
+                        { players }
+                    </Select>
+                </div>
+            </div>
+            <MatchHistory {...other}></MatchHistory>
+        </div>
+    )
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserMatchHistory)

@@ -4,7 +4,9 @@ import _ from 'lodash'
 import './OpponentDetails.scss'
 import Table from '../shared/Table/Table'
 import { FaChessKnight } from 'react-icons/fa'
+import { MdExpandMore } from 'react-icons/md'
 import InterGamesCell from './InterGamesCell'
+import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 
 function OpponentDetails(props) {
     const { opponent, lastFive, wins, remis, losses, whiteWins, whiteRemis, whiteLosses, blackWins, blackRemis, blackLosses } = props
@@ -22,17 +24,26 @@ function OpponentDetails(props) {
     }
 
     return (
-        <div className="opponent-details">
-            <div className="half-container">
-                <h2>{ opponent.name }<small>#{ Math.round(opponent.ranking) }</small></h2>
-                <Table data={tableData} />
-            </div>
-            <div className="half-container">
+        <ExpansionPanel className="opponent-details">
+            <ExpansionPanelSummary
+                expandIcon={<MdExpandMore />}
+                aria-controls={`userDetails_${opponent.name}`}>
+
+                <span class="opponentName">{ opponent.name }<small>#{ Math.round(opponent.ranking) }</small></span>
                 <div class="history">
                     { lastFive.map((match) => <span className={getLastFiveClasses(match)}><FaChessKnight size="25" /></span>)}
                 </div>
-            </div>
-        </div>
+            </ExpansionPanelSummary>
+            <ExpansionPanelDetails
+                id={`userDetails_${opponent.name}`}>
+
+                <div className="half-container">
+                    <Table data={tableData} />
+                </div>
+                <div className="half-container">
+                </div>
+            </ExpansionPanelDetails>
+        </ExpansionPanel>
     )
 }
 

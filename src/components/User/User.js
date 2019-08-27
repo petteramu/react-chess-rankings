@@ -6,6 +6,7 @@ import Table from '../shared/Table/Table'
 import OpponentDetails from './OpponentDetails'
 import InterGamesCell from './InterGamesCell'
 import UserMatchHistory from './UserMatchHistory'
+import { Paper, Typography } from '@material-ui/core';
 
 class User extends React.Component {
 
@@ -14,7 +15,7 @@ class User extends React.Component {
         const { statistics, players, matches } = this.props
         return (
             <section id="User">
-                <h1 className="title">{ name }</h1>
+                <Typography className="title" type="h2">{ name }</Typography>
                 <div className="half-container">
                     <UserStatistics {...statistics} />
                     <h2>Matchups</h2>
@@ -38,7 +39,7 @@ function UserStatistics(props) {
     ]
 
     return (
-        <div className="user-statistics">
+        <Paper className="user-statistics">
             <div class="flex-row">
                 <span className="statistics-item">
                     <span className="statistics-item-label">Rating:</span>
@@ -56,7 +57,7 @@ function UserStatistics(props) {
             <span className="statistics-item">
                 <Table data={tableData}/>
             </span>
-        </div>
+        </Paper>
     )
 }
 

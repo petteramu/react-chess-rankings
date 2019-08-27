@@ -12,7 +12,7 @@ function TournamentItem(props) {
     let minutes = (createdDate.getMinutes() < 10) ? '0' + createdDate.getMinutes() : createdDate.getMinutes()
     let readableDate = `${createdDate.getDate()}/${createdDate.getMonth()}/${createdDate.getFullYear()} ${hours}:${minutes}`
     return (
-        <Link className="tournamentLink" key={id} to={`/tournament/${id}`}>
+        <Link className="tournamentLink" key={id} to={`${process.env.PUBLIC_URL}/tournament/${id}`}>
             <strong>{tournamentName}</strong>
             <div class="tournamentLink-created">
                 { readableDate }
