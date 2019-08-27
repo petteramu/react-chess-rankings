@@ -6,6 +6,7 @@ import { getReadableDate } from '../../utils'
 import TournamentRankingList from './TournamentRankingList'
 import TournamentRound from '../shared/TournamentRound/TournamentRound'
 import './TournamentDetails.scss'
+import LoadingScreen from '../shared/LoadingScreen/LoadingScreen';
 
 class TournamentDetails extends React.Component {
 
@@ -26,7 +27,7 @@ class TournamentDetails extends React.Component {
 
     render() {
         const { isFetching, tournamentDetails } = this.props
-        if(!tournamentDetails && isFetching) return <h1>Loading...</h1>
+        if(!tournamentDetails && isFetching) return <LoadingScreen />
         if(!tournamentDetails) return null
 
         const createdString = getReadableDate(new Date(this.props.tournamentDetails.created))

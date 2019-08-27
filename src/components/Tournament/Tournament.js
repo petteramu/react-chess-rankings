@@ -4,6 +4,7 @@ import './Tournament.scss'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import TournamentDetails from './TournamentDetails'
+import LoadingScreen from '../shared/LoadingScreen/LoadingScreen';
 
 function TournamentItem(props) {
     const { id, created, tournamentName } = props
@@ -25,7 +26,7 @@ class Tournament extends React.Component {
     render() {
         let { isFetching, match, tournaments } = this.props
         const tournamentId = (match && match.params) ? match.params.id : null
-        if(isFetching) return <div id="tournament"><h1>Loading...</h1></div>
+        if(isFetching) return <LoadingScreen />
         tournaments = _.sortBy(tournaments, 'created').reverse()
         return (
             <div id="tournament">

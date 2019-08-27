@@ -1,0 +1,29 @@
+@import "../../../scss/variables";
+
+.loading-screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-color: $mainDark;
+
+    svg {
+        height: 100px;
+        width: 100px;
+        animation: rotate 1.75s infinite linear;
+        fill: white;
+    }
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg)
+    }
+    100% {
+        transform: rotate(360deg)
+    }
+}
