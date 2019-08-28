@@ -7,7 +7,7 @@ let num = Math.floor(Math.random() * spinners.length)
 const SelectedSpinner = spinners[num]
 function LoadingScreen(props) {
     return (
-        <div class="loading-screen">{SelectedSpinner}</div>
+        <div className="loading-screen">{SelectedSpinner}</div>
     )
 }
 

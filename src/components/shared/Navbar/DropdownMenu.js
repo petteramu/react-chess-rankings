@@ -3,12 +3,7 @@ import { Link } from 'react-router-dom'
 import './DropdownMenu.scss'
 import { hideMobileMenu } from '../../../store/ui/actions';
 import { connect } from 'react-redux';
-
-const keyCodes = {
-    UP: 38,
-    DOWN: 40,
-    ENTER: 0
-}
+import { KEY_CODES } from '../../../utils'
 
 class DropdownItem extends React.Component  {
     constructor(props) {
@@ -23,14 +18,14 @@ class DropdownItem extends React.Component  {
     }
 
     render() {
-        const { active, linkTo, text, onKeyPress, onBlur } = this.props
+        const { active, linkTo, text, onKeyDown, onBlur } = this.props
         const tabIndex = (active) ? "0" : "-1"
         return (
             <Link
                 innerRef={this.ref}
                 className="dropdown-item"
                 tabIndex={tabIndex}
-                onKeyDown={onKeyPress}
+                onKeyDown={onKeyDown}
                 onBlur={onBlur}
                 onClick={this.props.onClick}
                 to={linkTo}>
@@ -45,7 +40,7 @@ class DropdownMenu extends React.Component {
         super(props)
         this.state = { selectedIndex: undefined }
         this.ref = React.createRef()
-        this.onKeyPress = this.onKeyPress.bind(this)
+        this.onKeyDown = this.onKeyDown.bind(this)
         this.blurMenu = this.blurMenu.bind(this)
     }
 
@@ -57,26 +52,30 @@ class DropdownMenu extends React.Component {
         this.setState({ selectedIndex: undefined })
     }
 
-    onKeyPress(e) {
+    onKeyDown(e) {
         var currentIndex
         let target = e.target
         switch(e.keyCode) {
-            case keyCodes.ENTER:
+            case KEY_CODES.RIGHT:
                 if(document.activeElement !== this.ref.current) return
                 target.setAttribute("aria-expanded", "true")
                 this.setState({ selectedIndex: 0 })
                 return
-            case keyCodes.DOWN:
+            case KEY_CODES.LEFT:
+                this.blurMenu(e)
+                this.ref.current.focus()
+                return
+            case KEY_CODES.DOWN:
                 currentIndex = this.state.selectedIndex
                 this.setState({ selectedIndex: currentIndex + 1})
                 return
-            case keyCodes.UP:
+            case KEY_CODES.UP:
                 currentIndex = this.state.selectedIndex
                 this.setState({ selectedIndex: currentIndex - 1})
                 return
             default:
                 return
-        }   
+        }
     }
 
     render() {
@@ -92,14 +91,14 @@ class DropdownMenu extends React.Component {
                     aria-haspopup="true"
                     aria-controls={containerId}
                     ref={this.ref}
-                    onKeyPress={ this.onKeyPress }>{text}</div>
+                    onKeyDown={ this.onKeyDown }>{text}</div>
 
                 <div
                     className="dropdown-container"
                     id={containerId}
-                    onKeyPress={this.onKeyPress}>
+                    onKeyDown={this.onKeyDown}>
                         { children.map((child, index) =>  {
-                            return <DropdownItem key={index} onKeyPress={this.onKeyPress} onBlur={this.blurMenu} active={index === selectedIndex} {...child}/>
+                            return <DropdownItem key={index} onKeyDown={this.onKeyDown} onBlur={this.blurMenu} active={index === selectedIndex} {...child}/>
                         })}
                 </div>
             </li>

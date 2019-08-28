@@ -1,46 +1,118 @@
 import React from 'react'
 import _ from 'lodash'
+import PropTypes from 'prop-types'
+import ReactRouterPropTypes from 'react-router-prop-types'
 import './User.scss'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
+import { Paper, Typography } from '@material-ui/core'
+import { PlayerPropType, MatchPropType } from '../../utils/propTypes'
 import Table from '../shared/Table/Table'
 import OpponentDetails from './OpponentDetails'
 import InterGamesCell from './InterGamesCell'
 import UserMatchHistory from './UserMatchHistory'
-import { Paper, Typography } from '@material-ui/core';
 
-class User extends React.Component {
+const statisticsPropTypes = {
+    ranking: PropTypes.number.isRequired,
+    peak: PropTypes.number.isRequired,
+    wins: PropTypes.number.isRequired,
+    remis: PropTypes.number.isRequired,
+    losses: PropTypes.number.isRequired,
+    whiteWins: PropTypes.number.isRequired,
+    whiteRemis: PropTypes.number.isRequired,
+    whiteLosses: PropTypes.number.isRequired,
+    blackWins: PropTypes.number.isRequired,
+    blackRemis: PropTypes.number.isRequired,
+    blackLosses: PropTypes.number.isRequired,
+}
 
-    render() {
-        const name = this.props.match.params.id
-        const { statistics, players, matches } = this.props
-        return (
-            <section id="User">
-                <Typography className="title" type="h2">{ name }</Typography>
-                <div className="half-container">
-                    <UserStatistics {...statistics} />
-                    <h2>Matchups</h2>
-                    { players && players.map((opponent) => (opponent.name === name) ? null : <OpponentDetails key={opponent.name} selfName={name} opponent={opponent} />) }
-                </div>
-                <div className="half-container">
-                    <UserMatchHistory matches={matches} />
-                </div>
-            </section>
-        )
-    }
+function User(props) {
+    const { match: { params: { id: name } } } = props
+    const {
+        statistics: {
+            ranking,
+            peak,
+            wins,
+            remis,
+            losses,
+            whiteWins,
+            whiteRemis,
+            whiteLosses,
+            blackWins,
+            blackRemis,
+            blackLosses,
+        },
+        players,
+        matches,
+    } = props
+
+    return (
+        <section id="User">
+            <Typography className="title" type="h1">{ name }</Typography>
+            <div className="half-container">
+                <UserStatistics
+                    ranking={ranking}
+                    peak={peak}
+                    wins={wins}
+                    remis={remis}
+                    losses={losses}
+                    whiteWins={whiteWins}
+                    whiteRemis={whiteRemis}
+                    whiteLosses={whiteLosses}
+                    blackWins={blackWins}
+                    blackRemis={blackRemis}
+                    blackLosses={blackLosses}
+                />
+                <h2>Matchups</h2>
+                { players
+                    && players.map(
+                        (opponent) => (opponent.name === name ? null
+                            : (
+                                <OpponentDetails
+                                    key={opponent.name}
+                                    selfName={name}
+                                    opponent={opponent}
+                                />
+                            )),
+                    )}
+            </div>
+            <div className="half-container">
+                <UserMatchHistory matches={matches} />
+            </div>
+        </section>
+    )
+}
+
+User.propTypes = {
+    match: ReactRouterPropTypes.match.isRequired,
+    statistics: statisticsPropTypes.isRequired,
+    players: PropTypes.arrayOf(PlayerPropType).isRequired,
+    matches: PropTypes.arrayOf(MatchPropType).isRequired,
 }
 
 function UserStatistics(props) {
-    let { ranking, peak, wins, remis, losses, whiteWins, whiteRemis, whiteLosses, blackWins, blackRemis, blackLosses } = props
+    const {
+        ranking,
+        peak,
+        wins,
+        remis,
+        losses,
+        whiteWins,
+        whiteRemis,
+        whiteLosses,
+        blackWins,
+        blackRemis,
+        blackLosses,
+    } = props
     const totalGames = wins + remis + losses || 0
     const tableData = [
         ['White:', <InterGamesCell letter="W" amount={whiteWins} />, <InterGamesCell letter="R" amount={whiteRemis} />, <InterGamesCell letter="L" amount={whiteLosses} />],
         ['Black:', <InterGamesCell letter="W" amount={blackWins} />, <InterGamesCell letter="R" amount={blackRemis} />, <InterGamesCell letter="L" amount={blackLosses} />],
-        ['Total:', <InterGamesCell letter="W" amount={wins} />, <InterGamesCell letter="R" amount={remis} />, <InterGamesCell letter="L" amount={losses} />]
+        ['Total:', <InterGamesCell letter="W" amount={wins} />, <InterGamesCell letter="R" amount={remis} />, <InterGamesCell letter="L" amount={losses} />],
     ]
 
     return (
         <Paper className="user-statistics">
-            <div class="flex-row">
+            <div className="flex-row">
                 <span className="statistics-item">
                     <span className="statistics-item-label">Rating:</span>
                     <span className="statistics-item-content">{ Math.round(ranking) }</span>
@@ -55,19 +127,25 @@ function UserStatistics(props) {
                 </span>
             </div>
             <span className="statistics-item">
-                <Table data={tableData}/>
+                <Table data={tableData} />
             </span>
         </Paper>
     )
 }
 
-function mapState(state, ownProps) {
-    if(_.has(ownProps, 'match.params.id') && _.has(state, 'players.players')) {
-        const id = ownProps.match.params.id
-        const player = _.find(state.players.players, (statePlayer) => statePlayer.name === id)
-        if(player === undefined) return { isFetching: state.players.isFetching || state.matches.isFetching }
+UserStatistics.propTypes = statisticsPropTypes
 
-        const matches = _.filter(state.matches.matches, (match) => match.white.key === id || match.black.key === id)
+function mapState(state, ownProps) {
+    if (_.has(ownProps, 'match.params.id') && _.has(state, 'players.players')) {
+        const { players: { players } } = state
+        const { match: { params: { id } } } = ownProps
+        const player = _.find(state.players.players, (statePlayer) => statePlayer.name === id)
+        if (player === undefined) {
+            return { isFetching: state.players.isFetching || state.matches.isFetching }
+        }
+
+        const matches = _.filter(state.matches.matches,
+            (match) => match.white.key === id || match.black.key === id)
 
         const whiteMatches = _.filter(matches, (match) => match.white.key === id)
         const whiteWins = _.filter(whiteMatches, (match) => match.winner === 'white').length
@@ -90,12 +168,15 @@ function mapState(state, ownProps) {
             remis: player.remis,
             losses: player.losses,
             ranking: player.ranking,
-            peak: player.peak
+            peak: player.peak,
         }
 
-        const players = state.players.players
-
-        return { player, matches, players, statistics }
+        return {
+            player,
+            matches,
+            players,
+            statistics,
+        }
     }
     return {}
 }

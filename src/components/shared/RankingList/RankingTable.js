@@ -1,9 +1,19 @@
 import React from 'react'
 import Table from '@material-ui/core/Table'
-import { TableHead, TableBody, TableRow, withStyles, TableCell, Paper } from '@material-ui/core';
+import {
+    TableHead,
+    TableBody,
+    TableRow,
+    withStyles,
+    TableCell,
+    Paper,
+} from '@material-ui/core';
 import { history } from '../../../index'
+import { KEY_CODES } from '../../../utils'
 
-const StyledTableCell = withStyles(theme => ({
+const StyledTableCell = withStyles(theme => {
+    console.log(theme)
+    return {
     body: {
         cursor: 'pointer'
     },
@@ -25,33 +35,111 @@ const StyledTableCell = withStyles(theme => ({
         fontWeight: 'bold',
         fontSize: '16px'
     }
-}))(TableCell)
+}})(TableCell)
 
-function RankingTable(props) {
-    const { headerData, data, match } = props
+const StyledTableRow = withStyles(theme => ({
+    root: {
+        "&:focus": {
+            backgroundColor: '#eee'
+        }
+    }
+}))(TableRow)
 
-    function linkToPlayer(link) {
+class RankingTable extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            selectedIndex: null
+        }
+        
+        this.refsArray = []
+        this.onKeyDown = this.onKeyDown.bind(this)
+    }
+
+    linkToPlayer(link) {
         history.push(link)
     }
 
-    return (
-        <Paper>
-            <Table>
-                <TableHead>
-                    <TableRow>
-                        { headerData.map(item => <StyledTableCell>{item}</StyledTableCell>) }
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    { data.map(item => 
-                        <TableRow hover role="link" key={item.link} onClick={linkToPlayer.bind(this, item.link)}>
-                            { item.data.map(cell => <StyledTableCell>{ cell }</StyledTableCell>) }
+    componentDidUpdate() {
+        let ref = this.refsArray[this.state.selectedIndex]
+        if(ref) {
+            console.log("update", this.state.selectedIndex, ref)
+            ref.setAttribute("tabIndex", "0")
+            ref.focus()
+            console.log(document.activeElement)
+        }
+    }
+
+    getNextElement() {
+        if(this.state.selectedIndex)
+            this.setState({ selectedIndex: this.state.selectedIndex + 1})
+        else
+            this.setState({ selectedIndex: 0 })
+    }
+
+    focusNext(down) {
+        if(this.state.selectedIndex !== null)
+            this.setState({ selectedIndex: this.state.selectedIndex + 1})
+        else
+            this.setState({ selectedIndex: 0 })
+    }
+
+    focusFirst() {
+        if(this.headerRef && this.headerRef.current){
+            this.headerRef.current.setAttribute("tabIndex", "0")
+            this.headerRef.current.focus()
+            this.selectedElement = this.headerRef.current
+        }
+    }
+
+    onKeyDown(e) {
+        switch(e.keyCode) {
+            case KEY_CODES.RIGHT:
+                this.focusNext()
+                return
+            case KEY_CODES.LEFT:
+                this.blurMenu(e)
+                this.ref.current.focus()
+                return
+            case KEY_CODES.DOWN:
+                this.focusNext()
+                return
+            case KEY_CODES.UP:
+            return
+            default:
+                return
+        }
+    }
+
+    render() {
+        return (
+            <Paper>
+                <Table onKeyDown={this.onKeyDown} tabIndex="0" ref={this.tableRef}>
+                    <TableHead>
+                        <TableRow onKeyDown={this.onKeyDown} ref={this.headerRef} tabIndex="-1">
+                            { this.props.headerData.map(item => <StyledTableCell>{item}</StyledTableCell>) }
                         </TableRow>
-                    ) }
-                </TableBody>
-            </Table>
-        </Paper>
-    )
+                    </TableHead>
+                    <TableBody ref={this.bodyRef}>
+                        { this.props.data.map((item, index) => 
+                            <StyledTableRow
+                                hover
+                                role="link"
+                                tabIndex="0"
+                                key={item.link}
+                                ref={(ref) => this.refsArray[index] = ref}
+                                onKeyDown={this.onKeyDown}
+                                onClick={this.linkToPlayer.bind(this, item.link)}>
+                                { item.data.map((cell, index) =>
+                                    <StyledTableCell key={index}>{ cell }</StyledTableCell>)
+                                }
+                            </StyledTableRow>
+                        ) }
+                    </TableBody>
+                </Table>
+            </Paper>
+        )
+    }
 }
 
 export default RankingTable

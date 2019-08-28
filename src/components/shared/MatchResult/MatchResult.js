@@ -22,7 +22,7 @@ class MatchResult extends React.Component {
         
         const mainClasses = (match.winner) ? "match-result with-result" : "match-result"
         return (
-            <div className={mainClasses} tabIndex="0" onClick={this.props.onClick.bind(this, match)} {...other}>
+            <li className={mainClasses} tabIndex="0" onClick={this.props.onClick.bind(this, match)} {...other}>
                 { match.winner && this.getScoreElement('white', match) }
                 <div className="match-result-player white">{ white.key }</div>
                 <div className="match-result-vs">vs</div>
@@ -35,7 +35,7 @@ class MatchResult extends React.Component {
                         <div className="info-row black-change">{ blackChange }</div>
                     </>
                 }
-            </div>
+            </li>
         )
     }
 }

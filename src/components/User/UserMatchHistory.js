@@ -38,7 +38,7 @@ function UserMatchHistory(props) {
     return (
         <div className="match-history-component">
             <div className="match-history-header">
-                <h1>Latest maches</h1>
+                <h2>Latest maches</h2>
                 <div>
                     <Select
                         value={filter}

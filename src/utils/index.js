@@ -1,7 +1,9 @@
 import { getReadableDate, getShortReadableDate, getReadableDayMonth } from './readableDate'
+import KEY_CODES from './keyCodes'
 
 export {
     getReadableDate,
     getShortReadableDate,
-    getReadableDayMonth
+    getReadableDayMonth,
+    KEY_CODES
 }
