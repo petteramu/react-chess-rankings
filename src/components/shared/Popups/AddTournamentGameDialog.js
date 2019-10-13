@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import { connect } from 'react-redux';
 import { Dialog, DialogTitle, DialogContent, FormControl, DialogActions, Button, Radio, RadioGroup, FormControlLabel, withStyles } from '@material-ui/core';
 import { submitTournamentGame } from '../../../store/tournaments/actions';
-import { connect } from 'react-redux';
 import { hideAddTournamentGamePopup } from '../../../store/ui/actions';
+import WinnerSelectBox from '../WinnerSelectBox/WinnerSelectBox'
+import './AddTournamentGameDialog.scss'
 
 const styles = theme => ({
     root: {
@@ -20,65 +22,64 @@ const styles = theme => ({
 
 function AddTournamentGameDialog(props) {
     const [winner, setWinner] = useState(null)
-    const { match, close, submit, open, classes } = props
-    if(!match) return null
+    const { match, close, submit, open, classes, fullScreen } = props
+    if (!match) return null
 
     function handleSubmit() {
         const result = {
             winner,
             white: match.white.key,
             black: match.black.key,
-            id: match.id
+            id: match.id,
         }
 
-        if(submit) {
+        if (submit) {
             submit(result)
             close()
         }
     }
 
-    function handleChange(e) {
-        setWinner(e.target.value)
+    function handleChange(val) {
+        setWinner(val)
     }
 
     return (
-        <Dialog open={open} onClose={close}>
+        <Dialog
+            open={open}
+            onClose={close}
+            fullScreen={fullScreen}
+            id="AddTournamentGameDialog"
+        >
             <DialogTitle
                 component="legend"
-                id="AddTournamentGameTitle">Add tournament result</DialogTitle>
+                id="AddTournamentGameTitle"
+            >
+                Add tournament result
+            </DialogTitle>
             <DialogContent component="section">
-                <FormControl
-                    component="fieldset"
-                    aria-labelledby="AddTournamentGameTitle">
-                    <RadioGroup
-                        aria-label="Winner"
-                        name="winner"
-                        value={winner}
-                        onChange={handleChange}
-                        className={classes.root}>
-                        <FormControlLabel
-                            value="white"
-                            control={<Radio />}
-                            label={match.white.key}
-                            labelPlacement="top"
-                        />
-                        <FormControlLabel
-                            value="remis"
-                            control={<Radio />}
-                            label="Remis"
-                            labelPlacement="top"
-                        /><FormControlLabel
-                            value="black"
-                            control={<Radio />}
-                            label={match.black.key}
-                            labelPlacement="top"
-                        />
-                    </RadioGroup>
-                </FormControl>
+                <div className="select-winner-container">
+                    <WinnerSelectBox
+                        type="white"
+                        label={match.white.key}
+                        active={winner === "white"}
+                        onClick={handleChange}
+                    />
+                    <WinnerSelectBox
+                        type="remis"
+                        active={winner === "remis"}
+                        onClick={handleChange}
+                    />
+                    <WinnerSelectBox
+                        type="black"
+                        label={match.black.key}
+                        active={winner === "black"}
+                        onClick={handleChange}
+                    />
+                </div>
             </DialogContent>
             <DialogActions>
                 <Button onClick={close}>Cancel</Button>
-                <Button onClick={handleSubmit}>Submit</Button>
+                <Button onClick={handleSubmit} disabled={winner === null}>Submit</Button>
             </DialogActions>
         </Dialog>
     )
@@ -87,7 +88,7 @@ function AddTournamentGameDialog(props) {
 function mapState(state) {
     return {
         match: state.ui.addTournamentGameData,
-        open: state.ui.addTournamentGameVisible
+        open: state.ui.addTournamentGameVisible,
     }
 }
 
@@ -111,7 +112,12 @@ AddTournamentGameDialog.propTypes = {
             key: PropTypes.string
         }),
         id: PropTypes.string
-    })
+    }),
+    fullScreen: PropTypes.bool,
+}
+
+AddTournamentGameDialog.defaultProps = {
+    fullScreen: true,
 }
 
 export default withStyles(styles)(connect(mapState, mapDispatch)(AddTournamentGameDialog))

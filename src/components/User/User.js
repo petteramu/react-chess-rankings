@@ -26,6 +26,9 @@ const statisticsPropTypes = {
 }
 
 function User(props) {
+    const { isFetching } = props
+    if (isFetching) return null
+
     const { match: { params: { id: name } } } = props
     const {
         statistics: {
@@ -82,11 +85,16 @@ function User(props) {
     )
 }
 
+User.defaultProps = {
+    isFetching: false,
+}
+
 User.propTypes = {
     match: ReactRouterPropTypes.match.isRequired,
     statistics: statisticsPropTypes.isRequired,
     players: PropTypes.arrayOf(PlayerPropType).isRequired,
     matches: PropTypes.arrayOf(MatchPropType).isRequired,
+    isFetching: PropTypes.bool,
 }
 
 function UserStatistics(props) {

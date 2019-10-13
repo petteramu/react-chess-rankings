@@ -16,29 +16,37 @@ class TournamentDetails extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (prevProps) {this.updateDetailsIfNecessary(prevProps.tournamentId)}
+        if (prevProps) { this.updateDetailsIfNecessary(prevProps.tournamentId) }
     }
 
     updateDetailsIfNecessary(prevId) {
-        const { tournamentId, fetchTournamentDetails } = this.props
-        if (tournamentId && prevId !== tournamentId && typeof fetchTournamentDetails === 'function') {fetchTournamentDetails(tournamentId)}
+        const { tournamentId, updateTournamentDetails } = this.props
+        if (tournamentId
+            && prevId !== tournamentId
+            && typeof updateTournamentDetails === 'function') {
+            updateTournamentDetails(tournamentId)
+        }
     }
 
     render() {
+        console.log(this.props)
         const {
             isFetching,
-            tournamentDetails:
-            {
-                created,
-                matches,
-                id,
-                options: { double },
-            },
             tournamentId,
+            tournamentDetails,
         } = this.props
 
-        if ((!tournamentId !== id) && isFetching) return <LoadingScreen />
         if (!tournamentDetails) return null
+        
+        const {
+            tournamentName,
+            created,
+            matches,
+            id,
+            options: { double },
+        } = tournamentDetails
+
+        if ((!tournamentId !== id) && isFetching) return <LoadingScreen />
 
         const createdString = getReadableDate(new Date(created))
         const rounds = (matches) ? matches.map((round, index) => <TournamentRound key={index} roundNumber={index + 1} matches={round} />) : null
@@ -102,6 +110,9 @@ TournamentDetails.propTypes = {
             double: PropTypes.bool,
         }),
     }).isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    tournamentId: PropTypes.string.isRequired,
+    updateTournamentDetails: PropTypes.func.isRequired,
 }
 
 function mapState(state) {
@@ -113,7 +124,7 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
     return {
-        fetchTournamentDetails: (id) => dispatch((fetchTournamentDetails(id))),
+        updateTournamentDetails: (id) => dispatch((fetchTournamentDetails(id))),
     }
 }
 

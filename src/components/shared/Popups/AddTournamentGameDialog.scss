@@ -1,0 +1,12 @@
+@import "../../../scss/_variables.scss";
+
+#AddTournamentGameDialog {
+    .select-winner-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 2em;
+        @media screen and (max-device-width: $maxMobileWidth) {
+            grid-gap: 0;
+        }
+    }
+}

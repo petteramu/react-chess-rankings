@@ -25,6 +25,7 @@ module.exports = {
     "semi": ["warn", "never"],
     "linebreak-style": ["warn", "windows"],
     "indent": ["warn", 4],
+    "no-tabs": "off",
     "react/jsx-indent": ["warn", 4],
     "react/jsx-indent-props": ["warn", 4],
     "react/jsx-filename-extension": "off"

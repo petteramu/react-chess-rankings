@@ -2,21 +2,36 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
-import { connect } from 'react-redux';
-import { hideAddGamePopup } from '../../../store/ui/actions';
-import { DialogContent, DialogActions, Button, FormControlLabel, Radio, FormControl, FormLabel, RadioGroup } from '@material-ui/core';
+import { connect } from 'react-redux'
+import {
+    DialogContent,
+    DialogActions,
+    Button,
+    FormControlLabel,
+    Radio,
+    FormControl,
+    FormLabel,
+    RadioGroup,
+} from '@material-ui/core'
+import { hideAddGamePopup } from '../../../store/ui/actions'
 import { submitGame } from '../../../store/actions'
 import PlayerSelector from '../PlayerSelector/PlayerSelector'
 import './AddGameDialog.scss'
+import WinnerSelectBox from '../WinnerSelectBox/WinnerSelectBox'
 
 function AddGameDialog(props) {
     const [winner, setWinner] = useState(null)
     const [white, setWhite] = useState(null)
     const [black, setBlack] = useState(null)
-    const { open, onClose, onSubmit, players } = props
+    const {
+        open,
+        onClose,
+        onSubmit,
+        players,
+    } = props
 
-    function handleChange(e) {
-        setWinner(e.target.value)
+    function handleChange(val) {
+        setWinner(val)
     }
 
     function handleSubmit() {
@@ -33,7 +48,7 @@ function AddGameDialog(props) {
 
     const radioStyle = {
         justifyContent: 'center',
-        width: '100%'
+        width: '100%',
     }
 
     return (
@@ -44,29 +59,25 @@ function AddGameDialog(props) {
                     <PlayerSelector maxSelected={1} players={players} onSelectionChanged={handleWhiteChanged}/>
                     <PlayerSelector maxSelected={1} players={players} onSelectionChanged={handleBlackChanged}/>
                 </div>
-                <FormControl component="fieldset" style={radioStyle}>
-                    <FormLabel component="legend">Select Winner</FormLabel>
-                    <RadioGroup aria-label="Winner" name="winner" value={winner} onChange={handleChange} row style={radioStyle}>
-                        <FormControlLabel
-                            value="white"
-                            control={<Radio />}
-                            label="White"
-                            labelPlacement="top"
-                        />
-                        <FormControlLabel
-                            value="remis"
-                            control={<Radio />}
-                            label="Remis"
-                            labelPlacement="top"
-                        />
-                        <FormControlLabel
-                            value="black"
-                            control={<Radio />}
-                            label="Black"
-                            labelPlacement="top"
-                        />
-                    </RadioGroup>
-                </FormControl>
+                <div className="select-winner-container">
+                    <WinnerSelectBox
+                        type="white"
+                        label={white ? white.name : null}
+                        active={winner === 'white'}
+                        onClick={handleChange}
+                    />
+                    <WinnerSelectBox
+                        type="remis"
+                        active={winner === 'remis'}
+                        onClick={handleChange}
+                    />
+                    <WinnerSelectBox
+                        type="black"
+                        label={black ? black.name : null}
+                        active={winner === 'black'}
+                        onClick={handleChange}
+                    />
+                </div>
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>Cancel</Button>
@@ -97,7 +108,7 @@ AddGameDialog.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    players: PropTypes.array.isRequired
+    players: PropTypes.array.isRequired,
 }
 
 export default connect(mapState, mapDispatch)(AddGameDialog)

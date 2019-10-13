@@ -4,15 +4,17 @@ import { FormHelperText } from '@material-ui/core';
 
 function TournamentInformation(props) {
     const { participants, matchesVsEach } = props
-    const rounds = (participants.length - 1) * matchesVsEach
+    const matchesPerPlayer = (participants.length - 1) * matchesVsEach
+    const totalMatches = (matchesPerPlayer * participants.length) / 2
     const matchesPerRound = Math.floor(participants.length / 2)
+    const rounds = totalMatches / matchesPerRound
     return (
         <>
             <FormHelperText>
                 Rounds: { rounds }
             </FormHelperText>
             <FormHelperText>
-                Matches: { matchesPerRound * rounds }
+                Matches: { totalMatches }
             </FormHelperText>
         </>
     )

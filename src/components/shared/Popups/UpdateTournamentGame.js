@@ -4,6 +4,8 @@ import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, F
 import { hideUpdateTournamentMatchPopup } from '../../../store/ui/actions'
 import { connect } from 'react-redux'
 import { submitTournamentGame } from '../../../store/tournaments/actions'
+import WinnerSelectBox from '../WinnerSelectBox/WinnerSelectBox'
+import './UpdateTournamentGame.scss'
 
 const styles = (theme) => {
     return {
@@ -15,18 +17,18 @@ const styles = (theme) => {
             justifyContent: 'space-evenly'
         },
         radioParent: {
-            width: "100%"
+            width: '100%'
         }
     }
 }
 
 function UpdateTournamentGame(props) {
-    const { match, open, close, submit, classes } = props
+    const { match, open, close, submit, classes, fullScreen } = props
     const [sure, setSure] = useState(false)
     const [winner, setWinner] = useState(null)
     if(!match) return null
 
-    const handleWinnerChanged = (e) => setWinner(e.target.value)
+    const handleWinnerChanged = (val) => setWinner(val)
     const toggleSure = () => setSure(!sure)
     const handleSubmit = () => {
         let matchObj = {
@@ -40,40 +42,38 @@ function UpdateTournamentGame(props) {
     }
 
     return (
-        <Dialog open={open} onClose={close}>
+        <Dialog
+            open={open}
+            onClose={close}
+            fullScreen={fullScreen}
+            id="UpdateTournamentGameDialog"
+        >
             <DialogTitle component="legend">Update result</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    <p style={{"text-transform": "capitalize"}}>{match.white.key} vs. {match.black.key}</p>
+                    <p style={{'text-transform': 'capitalize'}}>{match.white.key} vs. {match.black.key}</p>
                     <p><strong>This will remove the previous result, and update the rankings to match the new result.</strong></p>
                 </DialogContentText>
                 <FormControl component="fieldset" className={classes.radioParent}>
-                    <RadioGroup
-                        aria-label="Winner"
-                        name="winner"
-                        value={winner}
-                        onChange={handleWinnerChanged}
-                        className={classes.radioGroup}
-                        row>
-                        <FormControlLabel
-                            value="white"
-                            control={<Radio />}
-                            label="White"
-                            labelPlacement="top"
+                    <div class="select-winner-container">
+                        <WinnerSelectBox
+                            type="white"
+                            label={match.white.key}
+                            active={winner === 'white'}
+                            onClick={handleWinnerChanged}
                         />
-                        <FormControlLabel
-                            value="remis"
-                            control={<Radio />}
-                            label="Remis"
-                            labelPlacement="top"
+                        <WinnerSelectBox
+                            type="remis"
+                            active={winner === 'remis'}
+                            onClick={handleWinnerChanged}
                         />
-                        <FormControlLabel
-                            value="black"
-                            control={<Radio />}
-                            label="Black"
-                            labelPlacement="top"
+                        <WinnerSelectBox
+                            type="black"
+                            label={match.black.key}
+                            active={winner === 'black'}
+                            onClick={handleWinnerChanged}
                         />
-                    </RadioGroup>
+                    </div>
                 </FormControl>
             </DialogContent>
             <DialogActions>
@@ -87,7 +87,7 @@ function UpdateTournamentGame(props) {
                         />}
                 />
                 <Button onClick={close}>Cancel</Button>
-                <Button disabled={!sure} onClick={handleSubmit}>Submit</Button>
+                <Button disabled={!sure} onClick={handleSubmit} disabled={winner === null}>Submit</Button>
             </DialogActions>
         </Dialog>
     )
@@ -120,7 +120,12 @@ UpdateTournamentGame.propTypes = {
             key: PropTypes.string
         }),
         id: PropTypes.string
-    })
+    }),
+    fullScreen: PropTypes.bool,
+}
+
+UpdateTournamentGame.defaultProps = {
+    fullScreen: true,
 }
 
 export default connect(mapState, mapDispatch)(withStyles(styles)(UpdateTournamentGame))

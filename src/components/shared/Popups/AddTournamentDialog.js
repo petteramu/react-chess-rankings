@@ -1,45 +1,43 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogActions, FormHelperText, FormGroup, RadioGroup, Button, DialogContent, FormLabel, TextField, FormControlLabel, useMediaQuery, useTheme, withStyles, Radio } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogActions, FormGroup, RadioGroup, Button, DialogContent, FormLabel, TextField, FormControlLabel, useMediaQuery, useTheme, withStyles, Radio } from '@material-ui/core';
+import { connect } from 'react-redux';
 import PlayerSelector from '../PlayerSelector/PlayerSelector';
 import TournamentInformation from './TournamentInformation'
-import { connect } from 'react-redux';
 import { hideAddTournamentPopup } from '../../../store/ui/actions';
 import { createTournament } from '../../../store/tournaments/actions';
 
-const styles = theme => {
-    return {
-        dialogContent: {
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gridColumnGap: '1em'
-        },
-        nameLabel: {
-            marginLeft: 0,
-            marginTop: '1em',
-            alignItems: 'start'
-        },
-        radioGroup: {
-            justifyContent: 'space-around'
-        },
-        margins: {
-            margin: '.75em 0 .75em 0'
-        }
-    }
-}
+const styles = () => ({
+    dialogContent: {
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
+        gridColumnGap: '1em',
+    },
+    nameLabel: {
+        marginLeft: 0,
+        marginTop: '1em',
+        alignItems: 'start',
+    },
+    radioGroup: {
+        justifyContent: 'space-around',
+    },
+    margins: {
+        margin: '.75em 0 .75em 0',
+    },
+})
 
 function AddTournamentDialog(props) {
     const { open, submit, close, classes, players } = props
     const [name, setName] = useState(new Date().toDateString())
     const handleNameChange = (e) => setName(e.target.value || new Date().toDateString())
-    const [double, setDouble] = useState("single")
+    const [double, setDouble] = useState('single')
     const [participants, setParticipants] = useState([])
     const handleDoubleChange = (e) => setDouble(e.target.value)
     const handleSubmit = () => {
         submit({
             name,
             participants,
-            double: double === "double"
+            double: double === 'double'
         })
         close()
     }
@@ -50,7 +48,7 @@ function AddTournamentDialog(props) {
     const tournamentInformation = (participants.length) ? 
         <TournamentInformation
             participants={participants}
-            matchesVsEach={double === "double" ? 2 : 1}/> : null
+            matchesVsEach={double === 'double' ? 2 : 1}/> : null
 
     return (
         <Dialog open={open} fullScreen={fullScreen}>
@@ -76,19 +74,20 @@ function AddTournamentDialog(props) {
                         aria-label="tournament type"
                         onChange={handleDoubleChange}
                         row
-                        className={classes.radioGroup}>
-                            <FormControlLabel
-                                label="Single"
-                                labelPlacement="top"
-                                value="single"
-                                control={<Radio />}
-                            />
-                            <FormControlLabel
-                                label="Double"
-                                labelPlacement="top"
-                                value="double"
-                                control={<Radio />}
-                            />
+                        className={classes.radioGroup}
+                    >
+                        <FormControlLabel
+                            label="Single"
+                            labelPlacement="top"
+                            value="single"
+                            control={<Radio />}
+                        />
+                        <FormControlLabel
+                            label="Double"
+                            labelPlacement="top"
+                            value="double"
+                            control={<Radio />}
+                        />
                     </RadioGroup>
                     { tournamentInformation }
                 </FormGroup>
@@ -118,9 +117,13 @@ function mapDispatch(dispatch) {
 AddTournamentDialog.propTypes = {
     open: PropTypes.bool,
     classes: PropTypes.object,
-    players: PropTypes.array,
-    close: PropTypes.func,
-    submit: PropTypes.func
+    players: PropTypes.array.isRequired,
+    close: PropTypes.func.isRequired,
+    submit: PropTypes.func.isRequired,
+}
+
+AddTournamentDialog.defaultProps = {
+    open: false,
 }
 
 export default connect(mapState, mapDispatch)(withStyles(styles)(AddTournamentDialog))

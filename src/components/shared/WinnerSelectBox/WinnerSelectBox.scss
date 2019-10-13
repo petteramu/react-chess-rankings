@@ -1,0 +1,137 @@
+@import "../../../scss/variables";
+$box-size: 82px;
+$anime-time: 4s;
+$clip-distance: .025;
+$clip-size: $box-size * (1 + $clip-distance * 2);
+$path-width: 2px;
+
+%full-fill {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.select-winner-input {
+    display: flex;
+    justify-content: center;
+    label {
+        width: $box-size;
+        display: block;
+        .label-text {
+            min-height: 1.5em;
+            display: block;
+            text-transform: uppercase;
+            color: grey;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            font-weight: bold;
+        }
+    }
+    .select-winner {
+        width: $box-size;
+        height: $box-size;
+        cursor: pointer;
+        box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.25);
+        position: relative;
+        &.active {
+            
+            &::before,
+            &::after {
+                color: orange;
+                @extend %full-fill;
+                content: '';
+                z-index: 10;
+                margin: -1 * $clip-distance * 100%;
+                box-shadow: inset 0 0 0 $path-width; 
+                animation: clipMe $anime-time linear infinite;
+            }
+        
+            &::before {
+                animation-delay: $anime-time * -.5;
+            }
+        }
+    
+        // for debug
+        // &:hover {
+        //     &::after,
+        //     &::before {
+        //         background-color: rgba(#f00, .3);
+        //     }
+        // }
+        .svg-container {
+            @extend %full-fill;
+            overflow: hidden;
+        }
+        &.white {
+            color: white;
+            background: #e4e4e4;
+            border: 1px solid #dedede;
+            span {   
+                @extend %full-fill;
+            }
+            svg {
+                transform: scaleX(-1);
+                position: absolute;
+                bottom: -15px;
+                left: -15px;
+            }
+        }
+        &.black {
+            color: #555;
+            background: #777;
+            border: 1px solid #999;
+            span {
+                @extend %full-fill;
+            }
+            svg {
+                position: absolute;
+                bottom: -15px;
+                right: -15px;
+            }
+        }
+        &.remis {
+            background: #777;
+            border: 1px solid #e4e4e4;
+            margin-top: 1.5em;
+            .svg-container {
+                &:before {
+                    z-index: 0;
+                    background: #e4e4e4;
+                    content: "";
+                    bottom: 0;
+                    top: 0;
+                    width: 50%;
+                    height: 100%;
+                    position: absolute;
+                }
+            }
+            .black {
+                bottom: -15px;
+                right: -40px;
+                color: #555;
+                position: absolute;
+                width: 100%;
+                height: 100%;
+            }
+            .white {
+                color: white;
+                transform: scaleX(-1);
+                position: absolute;
+                bottom: -15px;
+                left: -40px;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+}
+
+@keyframes clipMe {
+    0%, 100% {clip-path: polygon(0 0, $clip-size 0, $clip-size $path-width, 0 $path-width); }
+    25% {clip-path: polygon(0 0, $path-width 0, $path-width $clip-size, 0 $clip-size); }
+    50% {clip-path: polygon(0 $clip-size - $path-width - 2px, $clip-size $clip-size - $path-width - 2px, $clip-size $clip-size, 0 $clip-size); }
+    75% {clip-path: polygon($clip-size - $path-width - 2px 0, $clip-size 0, $clip-size $clip-size, $clip-size - $path-width - 2px $clip-size); }
+}

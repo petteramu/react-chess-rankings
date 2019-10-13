@@ -128,5 +128,5 @@ export {
     previousPage,
     addPlayer,
     submitGame,
-    deleteGame
+    deleteGame,
 }

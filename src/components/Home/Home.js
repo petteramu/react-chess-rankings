@@ -18,9 +18,9 @@ const Home = function(props) {
 
 function mapState(state) {
     return {
-        lacksPlayers: state.players.players.length === 0,
-        lacksMatches: state.matches.matches.length === 0,
-        isFetching: state.players.isFetching || state.matches.isFetching
+        lacksPlayers: !state.players.players || state.players.players.length === 0,
+        lacksMatches: !state.matches.matches || state.matches.matches.length === 0,
+        isFetching: state.players.isFetching || state.matches.isFetching,
     }
 }
 export default connect(mapState)(Home)

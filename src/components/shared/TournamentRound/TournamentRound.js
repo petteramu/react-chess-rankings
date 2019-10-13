@@ -9,15 +9,15 @@ function TournamentRound(props) {
     const { matches, roundNumber } = props
 
     function onClick(match) {
-        if(match.winner)
-            props.updateResult(match)
-        else
-            props.addResult(match)
+        if (match.winner) props.updateResult(match)
+        else props.addResult(match)
     }
 
     return (
-        <div class="tournament-round">
-            <h3>Round { roundNumber }</h3>
+        <div className="tournament-round">
+            <h3>
+                Round { roundNumber }
+            </h3>
             { matches.map((match) => <MatchResult onClick={onClick.bind(this, match)} key={match.id} match={match} />) }
         </div>
     )

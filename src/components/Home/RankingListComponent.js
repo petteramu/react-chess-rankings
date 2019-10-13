@@ -5,7 +5,8 @@ import RankingTable from '../shared/RankingList/RankingTable'
 import './RankingListComponent.scss'
 
 const mapStateToProps = (state) => {
-    let players = _.clone(state.players.players)
+    const players = _.clone(state.players.players)
+    console.log(state)
     players.sort((a, b) => { 
         if (a.ranking > b.ranking) return -1
         if (a.ranking < b.ranking) return 1
@@ -13,17 +14,17 @@ const mapStateToProps = (state) => {
     })
 
     const playerData = players.map((player, index) => {
-        let arr = []
+        const arr = []
         arr.push(index + 1 + '.')
         arr.push(Math.round(player.ranking))
         arr.push(player.name)
-        arr.push(player.streak)
+        arr.push(player.streak) // POO STORM in font-awesome
         arr.push(player.wins)
         arr.push(player.remis)
         arr.push(player.losses)
         return {
             link: `${process.env.PUBLIC_URL}/user/${player.name}`,
-            data: arr
+            data: arr,
         }
     })
 

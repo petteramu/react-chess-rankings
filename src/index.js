@@ -23,7 +23,7 @@ store.dispatch(fetchTournaments())
 ReactDOM.render(
     <Provider store={store}>
         <CssBaseline />
-        <ConnectedRouter basename={`/sjakk-beta`} history={history}>
+        <ConnectedRouter basename={`/sjakk`} history={history}>
             <App />
         </ConnectedRouter>
     </Provider>

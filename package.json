@@ -2,7 +2,7 @@
   "name": "react-rankings",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://petteramu.com/sjakk-beta",
+  "homepage": "http://petteramu.com/sjakk",
   "dependencies": {
     "@material-ui/core": "^4.3.3",
     "connected-react-router": "^6.5.2",
@@ -43,8 +43,8 @@
     ]
   },
   "devDependencies": {
-    "babel-eslint": "^10.0.3",
-    "eslint": "^6.2.2",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
