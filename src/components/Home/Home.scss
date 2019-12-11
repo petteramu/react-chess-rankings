@@ -11,6 +11,6 @@
 
 @media screen and (max-device-width: $maxMobileWidth) {
     #Home {
-        grid-template-columns: auto;
+        grid-template-columns: 100%;
     }
 }
