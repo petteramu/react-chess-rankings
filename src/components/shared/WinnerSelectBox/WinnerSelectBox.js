@@ -32,7 +32,7 @@ function WinnerSelectBox(props) {
                         aria-checked={active}
                         tabIndex="0"
                     >
-                        <div className="svg-container"><FaChessKnight size="75" /></div>
+                        <div className="svg-container"><FaChessKnight size="60" /></div>
                     </div>
                 </label>
             )}
@@ -47,10 +47,10 @@ function WinnerSelectBox(props) {
                 >
                     <div className="svg-container">
                         <span className="white">
-                            <FaChessKnight size="75" />
+                            <FaChessKnight size="60" />
                         </span>
                         <span className="black">
-                            <FaChessKnight size="75" />
+                            <FaChessKnight size="60" />
                         </span>
                     </div>
                 </div>

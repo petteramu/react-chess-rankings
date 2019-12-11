@@ -5,6 +5,7 @@
     > h1 {
         text-align: left;
         border-bottom: 4px orange solid;
+        margin: 0 0 1em;
     }
 
     .tournament-list {
@@ -14,10 +15,10 @@
         width: 100%;
         display: grid;
         grid-template-columns: 100%;
-        grid-row-gap: 15px;
+        grid-row-gap: 1em;
 
         .tournamentLink {
-            padding: 15px;
+            padding: 1em;
             background-color: #eee;
             box-shadow: 1px 1px 3px #ddd;
             width: 100%;

@@ -4,6 +4,9 @@
     display: grid;
     grid-gap: 15px;
     grid-template-columns: 1fr 1fr;
+    .MMRChart-container {
+        grid-column: 1 / span 2;
+    }
 }
 
 @media screen and (max-device-width: $maxMobileWidth) {

@@ -24,29 +24,13 @@ class MatchHistory extends React.Component {
         dispatch(previousPage())
     }
 
-    componentDidUpdate () {
-        this.setHeight()
-    }
-
-    componentDidMount () {
-        this.setHeight()
-    }
-
-    setHeight() {
-        if(this.state.listPos !== undefined || !this.listRef.current) return
-        let position = this.listRef.current.getBoundingClientRect()
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        let height = Math.max(500, window.innerHeight - (position.top + scrollTop) - 15)
-        this.setState({ listPos: height })
-    }
-
     render () {
         const isFetching = this.props.isFetching
         if(isFetching && !this.props.matches.length) return <h2>Loading...</h2>
 
         const page = this.props.matches.map((data) => <MatchResult onClick={this.props.showDeleteMatchPopup.bind(this, data)} style={{opacity: isFetching ? 0.5 : 1}} key={data.id} match={data} />)
         return (
-                <ul ref={this.listRef} className="match-history" style={{height: this.state.listPos + "px"}}>
+                <ul ref={this.listRef} className="match-history" >
                     { page }
                 </ul>
             )

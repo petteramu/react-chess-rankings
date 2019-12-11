@@ -4,6 +4,8 @@ import HomeMatchHistory from './HomeMatchHistory'
 import './Home.scss'
 import { connect } from 'react-redux'
 import LoadingScreen from '../shared/LoadingScreen/LoadingScreen';
+import MMRChart from '../shared/Charts/MMRChart';
+import CustomChart from '../shared/Charts/CustomChart';
 
 const Home = function(props) {
     const displayLoadingScreen = (props.lacksPlayers || props.lacksMatches) && props.isFetching
@@ -12,6 +14,8 @@ const Home = function(props) {
         <div id="Home">
             <HomeRankingListComponent />
             <HomeMatchHistory></HomeMatchHistory>
+            {/* <MMRChart /> */}
+            <CustomChart />
         </div>
     )
 }

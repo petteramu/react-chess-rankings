@@ -1,5 +1,5 @@
 @import "../../../scss/variables";
-$box-size: 82px;
+$box-size: 60px;
 $anime-time: 4s;
 $clip-distance: .025;
 $clip-size: $box-size * (1 + $clip-distance * 2);
@@ -37,7 +37,6 @@ $path-width: 2px;
         box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.25);
         position: relative;
         &.active {
-            
             &::before,
             &::after {
                 color: orange;
@@ -75,8 +74,8 @@ $path-width: 2px;
             svg {
                 transform: scaleX(-1);
                 position: absolute;
-                bottom: -15px;
-                left: -15px;
+                bottom: -10px;
+                left: -20px;
             }
         }
         &.black {
@@ -88,8 +87,8 @@ $path-width: 2px;
             }
             svg {
                 position: absolute;
-                bottom: -15px;
-                right: -15px;
+                bottom: -10px;
+                right: -20px;
             }
         }
         &.remis {
@@ -109,8 +108,8 @@ $path-width: 2px;
                 }
             }
             .black {
-                bottom: -15px;
-                right: -40px;
+                bottom: -10px;
+                right: -35px;
                 color: #555;
                 position: absolute;
                 width: 100%;
@@ -120,8 +119,8 @@ $path-width: 2px;
                 color: white;
                 transform: scaleX(-1);
                 position: absolute;
-                bottom: -15px;
-                left: -40px;
+                bottom: -10px;
+                left: -35px;
                 width: 100%;
                 height: 100%;
             }

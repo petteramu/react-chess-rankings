@@ -1,7 +1,16 @@
+@import "../../scss/_variables.scss";
 #Home {
     .match-history-component {
         display: inline-block;
         vertical-align: top;
+        min-height: 600px;
+        overflow-y: scroll;
+        scrollbar-width: 0;
+        position: relative;
+        @media screen and (max-device-width: $maxMobileWidth) {
+            grid-column: 1;
+            grid-row: 3;
+        }
         h1 {
             text-align: left;
         }

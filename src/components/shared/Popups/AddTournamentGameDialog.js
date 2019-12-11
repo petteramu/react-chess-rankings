@@ -117,7 +117,7 @@ AddTournamentGameDialog.propTypes = {
 }
 
 AddTournamentGameDialog.defaultProps = {
-    fullScreen: true,
+    fullScreen: false,
 }
 
 export default withStyles(styles)(connect(mapState, mapDispatch)(AddTournamentGameDialog))

@@ -12,7 +12,6 @@ import { history } from '../../../index'
 import { KEY_CODES } from '../../../utils'
 
 const StyledTableCell = withStyles(theme => {
-    console.log(theme)
     return {
     body: {
         cursor: 'pointer'
@@ -22,11 +21,19 @@ const StyledTableCell = withStyles(theme => {
         'text-transform': 'capitalize',
         [theme.breakpoints.down('sm')]: {
             "&:first-child": {
-                display: "none"
-            }
+                display: "none",
+            },
         },
         [theme.breakpoints.down('xs')]: {
             padding: "10px 10px 10px 12px",
+            "&:nth-child(6), &:nth-child(6), &:nth-child(7)": {
+                display: "none",
+            },
+        },
+        [theme.breakpoints.up('md')]: {
+            "&:last-child": {
+                display: "none",
+            },
         }
     },
     head: {
@@ -63,10 +70,8 @@ class RankingTable extends React.Component {
     componentDidUpdate() {
         let ref = this.refsArray[this.state.selectedIndex]
         if(ref) {
-            console.log("update", this.state.selectedIndex, ref)
             ref.setAttribute("tabIndex", "0")
             ref.focus()
-            console.log(document.activeElement)
         }
     }
 

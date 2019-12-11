@@ -4,11 +4,6 @@
     h1 {
         text-align: left;
     }
-
-    .ranking-table-cell:nth-child(3) {
-        text-align: left;
-        text-transform: capitalize;
-    }
 }
 
 @media screen and (max-device-width: $maxMobileWidth) {
@@ -24,5 +19,71 @@
                 }
             }
         }
+    }
+}
+
+.streak {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    
+    &.streak--poo-storm svg {
+        animation: storm 8s infinite;
+    }
+
+    &.streak--poo svg, &.streak--fire svg {
+        width: 1.25em;
+    }
+
+    &.streak--dumpster svg, &.streak--poo svg, &.streak--poo-storm svg {
+        color: rgb(148, 55, 12);
+    }
+
+    &.streak--big-fire svg, &.streak--phoenix svg, &.streak--fire svg {
+        animation: fire 2s infinite alternate;
+    }
+    
+    svg {
+        width: 1.5em;
+        height: auto;
+    }
+}
+
+@keyframes fire {
+    0% {
+        color: #d43300;
+    }
+    70% {
+        color: #d43300;
+    }
+    100% {
+        color: #ef5a00;
+    }
+}
+
+@keyframes storm {
+    0% {
+        color: rgb(148, 55, 12);
+    }
+    10% {
+        color: rgb(148, 55, 12);
+    }
+    10.75% {
+        color: rgb(241, 221, 131);
+    }
+    12% {
+        color: rgb(148, 55, 12);
+    }
+    14% {
+        color: rgb(148, 55, 12);
+    }
+    14.75% {
+        color: rgb(241, 221, 131);
+    }
+    16% {
+        color: rgb(148, 55, 12);
+    }
+    100% {
+        color: rgb(148, 55, 12);
     }
 }
