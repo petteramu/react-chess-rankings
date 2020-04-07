@@ -6,7 +6,6 @@ import HomeMatchHistory from './HomeMatchHistory'
 import './Home.scss'
 import LoadingScreen from '../shared/LoadingScreen/LoadingScreen';
 import MMRChart from '../shared/Charts/MMRChart';
-import CustomChart from '../shared/Charts/CustomChart';
 
 const Home = function Home(props) {
     const { lacksMatches, lacksPlayers, isFetching } = props
@@ -17,7 +16,6 @@ const Home = function Home(props) {
             <HomeRankingListComponent />
             <HomeMatchHistory />
             <MMRChart />
-            {/* <CustomChart /> */}
         </div>
     )
 }

@@ -9,7 +9,7 @@
     }
 }
 
-@media screen and (max-device-width: $maxMobileWidth) {
+@media screen and (max-width: $maxMobileWidth) {
     #Home {
         grid-template-columns: 100%;
     }
