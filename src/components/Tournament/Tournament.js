@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import _ from 'lodash'
 import './Tournament.scss'
 import { connect } from 'react-redux'
@@ -49,6 +50,12 @@ function mapState(state) {
         isFetching: state.tournament.ui,
         tournaments: state.tournament.tournaments,
     }
+}
+
+Tournament.propTypes = {
+    isFetching: PropTypes.bool.isRequired,
+    match: PropTypes.string,
+    tournaments: 
 }
 
 export default connect(mapState)(Tournament)
