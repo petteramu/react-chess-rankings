@@ -54,8 +54,7 @@ function mapState(state) {
 
 Tournament.propTypes = {
     isFetching: PropTypes.bool.isRequired,
-    match: PropTypes.string,
-    tournaments: 
+    match: PropTypes.string.isRequired,
 }
 
 export default connect(mapState)(Tournament)
