@@ -32,7 +32,8 @@ function OpponentDetails(props) {
 
     function getLastFiveClasses(match) {
         const classes = []
-        classes.push((match.winner) ? 'winner' : 'loser')
+        const winnerClass = match.winner ? 'winner' : 'loser'
+        classes.push((match.winner === 'remis') ? 'remis' : winnerClass)
         classes.push((match.color))
         return classes.join(' ')
     }
@@ -108,8 +109,18 @@ function mapState(state, ownProps) {
     const losses = whiteLosses + blackLosses
 
     const lastFive = matches.slice(0, 5).map((match) => {
-        if (match.white.key === selfName) return { color: 'white', winner: match.winner === 'white' }
-        if (match.black.key === selfName) return { color: 'black', winner: match.winner === 'black' }
+        if (match.white.key === selfName) {
+            let winner
+            if (match.winner === 'remis') winner = 'remis'
+            else if (match.winner === 'blwhiteack') winner = true
+            return { color: 'white', winner }
+        }
+        if (match.black.key === selfName) {
+            let winner
+            if (match.winner === 'remis') winner = 'remis'
+            else if (match.winner === 'black') winner = true
+            return { color: 'black', winner }
+        }
         return undefined
     }).reverse()
 

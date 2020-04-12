@@ -26,7 +26,6 @@ const mapDispatchToProps = (dispatch) => {
 function UserMatchHistory(props) {
     const [filter, setFilter] = useState("All")
     const handleFilterChange = (e) => {
-        console.log(e)
         const value = e.target.value
         setFilter(value)
         props.onFilterChanged(value === "All" ? "" : value)

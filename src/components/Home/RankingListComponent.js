@@ -7,7 +7,6 @@ import { FaBurn, FaFireAlt, FaPhoenixFramework, FaPoo, FaPooStorm, FaDumpsterFir
 
 const mapStateToProps = (state) => {
     const players = _.clone(state.players.players)
-    console.log(state)
     players.sort((a, b) => { 
         if (a.ranking > b.ranking) return -1
         if (a.ranking < b.ranking) return 1

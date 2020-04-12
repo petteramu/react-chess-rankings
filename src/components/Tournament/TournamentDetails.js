@@ -29,7 +29,6 @@ class TournamentDetails extends React.Component {
     }
 
     render() {
-        console.log(this.props)
         const {
             isFetching,
             tournamentId,

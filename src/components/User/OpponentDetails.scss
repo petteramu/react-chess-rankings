@@ -33,7 +33,7 @@
         .black {
             color: black;
         }
-        .winner, .loser {
+        .winner, .loser, .remis {
             &::after {
                 content: '';
                 width: 12px;
@@ -49,6 +49,9 @@
         }
         .winner::after {
             background-color: darkgreen;
+        }
+        .remis::after {
+            background-color: grey;
         }
     }
 
