@@ -1,15 +1,19 @@
 import React from 'react'
 import _ from 'lodash'
+import {
+    Paper,
+    Typography,
+} from '@material-ui/core'
 import PropTypes from 'prop-types'
 import ReactRouterPropTypes from 'react-router-prop-types'
 import './User.scss'
 import { connect } from 'react-redux'
-import { Paper, Typography } from '@material-ui/core'
 import { PlayerPropType, MatchPropType } from '../../utils/propTypes'
 import Table from '../shared/Table/Table'
 import OpponentDetails from './OpponentDetails'
 import InterGamesCell from './InterGamesCell'
 import UserMatchHistory from './UserMatchHistory'
+import UserMMRChart from './UserMMRChart'
 
 const statisticsPropTypes = {
     ranking: PropTypes.number.isRequired,
@@ -51,6 +55,9 @@ function User(props) {
     return (
         <section id="User">
             <Typography className="title" type="h1">{ name }</Typography>
+            <div className="graph">
+                <UserMMRChart players={players} defaultSelected={[name]}/>
+            </div>
             <div className="half-container">
                 <UserStatistics
                     ranking={ranking}
@@ -78,7 +85,7 @@ function User(props) {
                             )),
                     )}
             </div>
-            <div className="half-container">
+            <div className="half-container matches">
                 <UserMatchHistory matches={matches} />
             </div>
         </section>
