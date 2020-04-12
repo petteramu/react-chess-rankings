@@ -47,7 +47,9 @@ function UserMatchHistory(props) {
                     </Select>
                 </div>
             </div>
-            <MatchHistory {...other}></MatchHistory>
+            <div className="user-match-history-container">
+                <MatchHistory {...other} />
+            </div>
         </div>
     )
 }

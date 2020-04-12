@@ -2,24 +2,29 @@
 #User {
     .match-history-component {
         width: 100%;
-        display: inline-block;
+        height: 100%;
+        display: grid;
+        grid-template-rows: auto 1fr;
         vertical-align: top;
-        margin-left: 15px;
         position: relative;
         
         .match-history-header {
             display: flex;
             justify-content: space-between;
-            align-content: center;
+            align-items: center;
             margin-bottom: 5px;
             h1 {
                 text-align: left;
                 margin: 0;
             }
-            select {
-                padding: 10px;
+            select, .MuiInputBase-inputSelect {
                 text-transform: capitalize;
             }
+        }
+        .user-match-history-container {
+            position: relative;
+            overflow-y: auto;
+            height: 100%;
         }
     }
 }

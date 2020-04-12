@@ -48,7 +48,7 @@ class NavBar extends React.Component {
                 <div className={backgroundFadeClass} onClick={ this.props.hideMobileMenu }></div>
                 <nav className="main-navbar">
                     <div className="container">
-                        <Link className="logo" to={`${process.env.PUBLIC_URL}/`}>Nf6 & Chill</Link>
+                        <Link className="logo" to={`${process.env.PUBLIC_URL}/`}>Brisen & Blunder</Link>
                         <div tabIndex="0" className="mobile-expander">
                             <IoMdMenu onClick={ this.onMenuClicked.bind(this) } size="25" />
                         </div>

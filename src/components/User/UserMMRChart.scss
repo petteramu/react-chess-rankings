@@ -1,0 +1,9 @@
+#user-mmr-chart {
+    #user_graph {
+        display: flex;
+        flex-direction: column;
+    }
+    select, .MuiInputBase-inputSelect {
+        text-transform: capitalize;
+    }
+}

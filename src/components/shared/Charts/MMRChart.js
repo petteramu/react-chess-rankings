@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import _ from 'lodash'
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts'
-import { Button } from '@material-ui/core'
+import { useMediaQuery, useTheme } from '@material-ui/core'
 import './MMRChart.scss'
 
 const red = '#f72c25'
@@ -17,6 +18,7 @@ const wine = '#6b2737'
 const vanilla = '#F8F4A6'
 const aquaMarine = '#85ffc7'
 const onyx = '#39393a'
+const grey = '#999'
 const colors = [red, darkPurple, saffron, bananaMania, seaFoamGreen, silver,
     wine, vanilla, aquaMarine, onyx]
 
@@ -24,17 +26,25 @@ const PAGE_SIZE = 10
 
 function MMRChart(props) {
     const {
-        title, data, players, min, max,
+        title,
+        data,
+        players,
+        maxHeight,
+        disableLegend,
     } = props
     const rootEle = React.createRef()
-    const [pageNumber, setPage] = useState(0)
-    const page = data.slice(pageNumber * PAGE_SIZE, pageNumber * PAGE_SIZE + PAGE_SIZE)
+    const [pageNumber, setPage] = useState(1)
+    const start = data.length - (pageNumber * PAGE_SIZE)
+    const end = start + PAGE_SIZE
+    const page = data.slice(start, end)
     const [width, setWidth] = useState(0)
 
     function updateHeight() {
         if (!rootEle.current) return
-        const containerWidth = rootEle.current.parentNode.getBoundingClientRect().width
-        setWidth(containerWidth)
+        const padding = 48
+        const parentWidth = rootEle.current.parentNode.getBoundingClientRect().width
+        setWidth(parentWidth - padding)
+        console.log(parentWidth)
     }
 
     useEffect(() => {
@@ -87,35 +97,49 @@ function getDateStamp(stamp) {
     return date.getTime()
 }
 
-function getDailyChartData(matches) {
-    if (!matches || matches.length === 0) {
-        return null
-    }
+function getDailyChartData(matches, playerNames) {
     let min = 1200
     let max = 1200
-    let dataArray = _.map(matches, (match) => ({ name: getDateStamp(match.timestamp) }))
+    if (!matches || matches.length === 0) {
+        return {
+            data: [],
+        }
+    }
+    const filteredMatches = matches.filter((match) => (playerNames.indexOf(match.white.key) !== -1
+        || playerNames.indexOf(match.black.key) !== -1))
+    let dataArray = _.map(filteredMatches, (match) => ({ name: getDateStamp(match.timestamp) }))
     dataArray = _.uniqBy(dataArray, 'name').reverse()
 
-    matches.forEach((match) => {
+    filteredMatches.forEach((match) => {
         const dataObject = _.find(dataArray, (obj) => obj.name === getDateStamp(match.timestamp))
 
         // Handle both gains and losses for both colors.
         // Must check for gain and loss since remis are unpredictable in who has which.
-        if (match.white.change !== undefined) {
-            const whiteName = match.white.key
+        // Should not add the data if the player isn't a player that should be included
+        // or if the data already exists.
+        // This is because we only want the last ranking of a day to be visible,
+        // which will be the first match in the array
+        const whiteName = match.white.key
+        if (dataObject[whiteName] === undefined
+            && match.white.change !== undefined
+            && playerNames.indexOf(whiteName) !== -1) {
             const whiteRanking = Math.round(match.white.preRanking + match.white.change)
             dataObject[whiteName] = whiteRanking
             if (whiteRanking > max) max = whiteRanking
             if (whiteRanking < min) min = whiteRanking
         }
 
-        if (match.black.change !== undefined) {
-            const blackName = match.black.key
+        const blackName = match.black.key
+        if (dataObject[blackName] === undefined
+            && match.black.change !== undefined
+            && playerNames.indexOf(blackName) !== -1) {
             const blackRanking = Math.round(match.black.preRanking + match.black.change)
             dataObject[blackName] = blackRanking
             if (blackRanking > max) max = blackRanking
             if (blackRanking < min) min = blackRanking
         }
+
+        dataObject.average = 1200
     })
 
     const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -123,6 +147,7 @@ function getDailyChartData(matches) {
     // Transform into date
     dataArray.forEach((obj) => {
         const date = new Date(obj.name)
+        // eslint-disable-next-line no-param-reassign
         obj.name = `${date.getDate()} ${monthNames[date.getMonth()]}`
     })
 
@@ -130,20 +155,30 @@ function getDailyChartData(matches) {
 
     return {
         data: dataArray,
-        min,
-        max,
     }
 }
 
-function mapStateToProps(state) {
-    const { data, min, max } = getDailyChartData(state.matches.matches)
-    const { players } = state.players
+function mapStateToProps(state, ownProps) {
+    const playerNames = ownProps.players.map((player) => player.name)
+    const { data } = getDailyChartData(state.matches.matches, playerNames)
     return {
         data,
-        players,
-        min,
-        max,
     }
+}
+
+MMRChart.propTypes = {
+    title: PropTypes.string,
+    players: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string.isRequired,
+    })).isRequired,
+    maxHeight: PropTypes.number,
+    disableLegend: PropTypes.bool,
+}
+
+MMRChart.defaultProps = {
+    title: '',
+    maxHeight: 600,
+    disableLegend: false,
 }
 
 export default connect(mapStateToProps)(MMRChart)

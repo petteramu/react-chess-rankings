@@ -1,11 +1,26 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogActions, FormGroup, RadioGroup, Button, DialogContent, FormLabel, TextField, FormControlLabel, useMediaQuery, useTheme, withStyles, Radio } from '@material-ui/core';
-import { connect } from 'react-redux';
-import PlayerSelector from '../PlayerSelector/PlayerSelector';
+import {
+    Dialog,
+    DialogTitle,
+    DialogActions,
+    FormGroup,
+    RadioGroup,
+    Button,
+    DialogContent,
+    FormLabel,
+    TextField,
+    FormControlLabel,
+    useMediaQuery,
+    useTheme,
+    withStyles,
+    Radio,
+} from '@material-ui/core'
+import { connect } from 'react-redux'
+import PlayerSelector from '../PlayerSelector/PlayerSelector'
 import TournamentInformation from './TournamentInformation'
-import { hideAddTournamentPopup } from '../../../store/ui/actions';
-import { createTournament } from '../../../store/tournaments/actions';
+import { hideAddTournamentPopup } from '../../../store/ui/actions'
+import { createTournament } from '../../../store/tournaments/actions'
 
 const styles = () => ({
     dialogContent: {
@@ -27,7 +42,13 @@ const styles = () => ({
 })
 
 function AddTournamentDialog(props) {
-    const { open, submit, close, classes, players } = props
+    const {
+        open,
+        submit,
+        close,
+        classes,
+        players,
+    } = props
     const [name, setName] = useState(new Date().toDateString())
     const handleNameChange = (e) => setName(e.target.value || new Date().toDateString())
     const [double, setDouble] = useState('single')
@@ -37,24 +58,27 @@ function AddTournamentDialog(props) {
         submit({
             name,
             participants,
-            double: double === 'double'
+            double: double === 'double',
         })
         close()
     }
 
     const theme = useTheme()
     const fullScreen = useMediaQuery(theme.breakpoints.down('sm'))
-    
-    const tournamentInformation = (participants.length) ? 
+
+    const tournamentInformation = (participants.length) ? (
         <TournamentInformation
             participants={participants}
-            matchesVsEach={double === 'double' ? 2 : 1}/> : null
+            matchesVsEach={double === 'double' ? 2 : 1}
+        />
+    ) : null
 
     return (
         <Dialog open={open} fullScreen={fullScreen}>
             <DialogTitle component="legend">Create tournament</DialogTitle>
             <DialogContent
-                className={classes.dialogContent}>
+                className={classes.dialogContent}
+            >
                 <PlayerSelector
                     players={players}
                     onSelectionChanged={setParticipants}
@@ -103,21 +127,21 @@ function AddTournamentDialog(props) {
 function mapState(state) {
     return {
         open: state.ui.addTournamentVisible,
-        players: state.players.players
+        players: state.players.players,
     }
 }
 
 function mapDispatch(dispatch) {
     return {
         close: () => dispatch(hideAddTournamentPopup()),
-        submit: (data) => dispatch(createTournament(data))
+        submit: (data) => dispatch(createTournament(data)),
     }
 }
 
 AddTournamentDialog.propTypes = {
     open: PropTypes.bool,
     classes: PropTypes.object,
-    players: PropTypes.array.isRequired,
+    players: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired })).isRequired,
     close: PropTypes.func.isRequired,
     submit: PropTypes.func.isRequired,
 }
