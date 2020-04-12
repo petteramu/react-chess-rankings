@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import {
-    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
+    LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
 } from 'recharts'
 import { useMediaQuery, useTheme } from '@material-ui/core'
 import './MMRChart.scss'
@@ -39,7 +39,7 @@ function MMRChart(props) {
     const page = data.slice(start, end)
     const [width, setWidth] = useState(0)
 
-    function updateWidth() {
+    function updateHeight() {
         if (!rootEle.current) return
         const padding = 48
         const parentWidth = rootEle.current.parentNode.getBoundingClientRect().width
@@ -49,30 +49,29 @@ function MMRChart(props) {
 
     useEffect(() => {
         if (width === 0) {
-            updateWidth()
+            updateHeight()
         }
     })
 
-    window.addEventListener('resize', _.throttle(updateWidth, 500, { trailing: true }))
+    window.addEventListener('resize', _.throttle(updateHeight, 500, { trailing: true }))
+
     return (
         <div className="MMRChart-container" ref={rootEle} style={{ width: `100%` }}>
-            { title && <h2>{title}</h2> }
-            <LineChart
-                width={width}
-                height={Math.min(maxHeight, width * 0.6)}
-                data={page}
-                margin={{
-                    left: -20, right: 0, top: 0, bottom: 0,
-                }}
-            >
-                { players.map((player, index) => <Line type="monotone" dot={false} key={player.name} dataKey={player.name} stroke={colors[index]} strokeWidth="2" />)}
-                <Line type="monotone" key="average" dataKey="average" dot={false} stroke={grey} strokeWidth="2" />
-                <CartesianGrid stroke="#ccc" />
-                <XAxis dataKey="name" />
-                <YAxis domain={['dataMin - 50', 'dataMax + 50']} />
-                { !disableLegend && <Legend /> }
-                <Tooltip />
-            </LineChart>
+            <ResponsiveContainer aspect="1.6">
+                <LineChart
+                    data={page}
+                    margin={{
+                        left: -20, right: 0, top: 0, bottom: 0,
+                    }}
+                >
+                    { players.map((player, index) => <Line type="monotone" key={player.name} dataKey={player.name} stroke={colors[index]} />,)}
+                    <CartesianGrid stroke="#ccc" />
+                    <XAxis dataKey="name" />
+                    <YAxis domain={[min, max]} />
+                    <Legend />
+                    <Tooltip />
+                </LineChart>
+            </ResponsiveContainer>
         </div>
     )
 }
