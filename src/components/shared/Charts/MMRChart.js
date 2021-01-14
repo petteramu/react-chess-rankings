@@ -5,7 +5,6 @@ import _ from 'lodash'
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts'
-import { useMediaQuery, useTheme } from '@material-ui/core'
 import './MMRChart.scss'
 
 const red = '#f72c25'
@@ -33,7 +32,7 @@ function MMRChart(props) {
         disableLegend,
     } = props
     const rootEle = React.createRef()
-    const [pageNumber, setPage] = useState(1)
+    const [pageNumber] = useState(1)
     const start = data.length - (pageNumber * PAGE_SIZE)
     const end = start + PAGE_SIZE
     const page = data.slice(start, end)

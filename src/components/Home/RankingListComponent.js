@@ -36,7 +36,6 @@ const mapStateToProps = (state) => {
 }
 
 function getStreakContent(streak) {
-    let icon = null;
     if (streak >= 3 && streak < 5) {
         return (
             <div className="streak streak--fire">

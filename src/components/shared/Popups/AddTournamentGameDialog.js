@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux';
-import { Dialog, DialogTitle, DialogContent, FormControl, DialogActions, Button, Radio, RadioGroup, FormControlLabel, withStyles } from '@material-ui/core';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button, withStyles } from '@material-ui/core';
 import { submitTournamentGame } from '../../../store/tournaments/actions';
 import { hideAddTournamentGamePopup } from '../../../store/ui/actions';
 import WinnerSelectBox from '../WinnerSelectBox/WinnerSelectBox'
@@ -22,7 +22,7 @@ const styles = theme => ({
 
 function AddTournamentGameDialog(props) {
     const [winner, setWinner] = useState(null)
-    const { match, close, submit, open, classes, fullScreen } = props
+    const { match, close, submit, open, fullScreen } = props
     if (!match) return null
 
     function handleSubmit() {

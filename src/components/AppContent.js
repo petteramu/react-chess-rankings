@@ -22,7 +22,7 @@ function AppContent(props) {
     const { storeJwt } = props
     const { isAuthenticated, getAccessTokenSilently } = useAuth0()
     if (isAuthenticated) {
-        const token = getAccessTokenSilently()
+        getAccessTokenSilently()
         .then((token) => {
             storeJwt(token)
         })

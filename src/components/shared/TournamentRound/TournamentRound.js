@@ -3,7 +3,6 @@ import './TournamentRound.scss'
 import { showAddTournamentGamePopup, showUpdateTournamentMatchPopup } from '../../../store/ui/actions'
 import { connect } from 'react-redux'
 import MatchResult from '../MatchResult/MatchResult'
-import { submitTournamentGame } from '../../../store/tournaments/actions';
 
 function TournamentRound(props) {
     const { matches, roundNumber } = props
