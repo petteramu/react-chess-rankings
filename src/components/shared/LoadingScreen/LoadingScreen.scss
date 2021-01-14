@@ -9,13 +9,13 @@
     position: absolute;
     left: 0;
     top: 0;
-    background-color: $mainDark;
+    background-color: white;
 
     svg {
         height: 100px;
         width: 100px;
         animation: rotate 1.75s infinite linear;
-        fill: white;
+        fill: $mainDark;
     }
 }
 

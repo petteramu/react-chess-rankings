@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
     Dialog,
@@ -17,6 +17,7 @@ import { hideUpdateTournamentMatchPopup } from '../../../store/ui/actions'
 import { submitTournamentGame } from '../../../store/tournaments/actions'
 import WinnerSelectBox from '../WinnerSelectBox/WinnerSelectBox'
 import './UpdateTournamentGame.scss'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const styles = () => ({
     checkbox: {
@@ -41,6 +42,16 @@ function UpdateTournamentGame(props) {
     } = props
     const [sure, setSure] = useState(false)
     const [winner, setWinner] = useState(null)
+
+    const { getAccessTokenSilently } = useAuth0()
+    let token = null;
+    useEffect(() => {
+        async function getToken() {
+            token = await getAccessTokenSilently()
+        }
+        getToken()
+    })
+
     if (!match) return null
 
     const handleWinnerChanged = (val) => setWinner(val)
@@ -52,7 +63,7 @@ function UpdateTournamentGame(props) {
             id: match.id,
             winner,
         }
-        submit(matchObj)
+        submit(matchObj, token)
         close()
     }
 
@@ -130,7 +141,7 @@ function mapState(state) {
 function mapDispatch(dispatch) {
     return {
         close: () => dispatch(hideUpdateTournamentMatchPopup()),
-        submit: (match) => dispatch(submitTournamentGame(match)),
+        submit: (match, token) => dispatch(submitTournamentGame(match, token)),
     }
 }
 

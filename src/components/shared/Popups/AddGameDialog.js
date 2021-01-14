@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Dialog from '@material-ui/core/Dialog'
 import DialogTitle from '@material-ui/core/DialogTitle'
@@ -7,19 +7,17 @@ import {
     DialogContent,
     DialogActions,
     Button,
-    FormControlLabel,
-    Radio,
-    FormControl,
-    FormLabel,
-    RadioGroup,
 } from '@material-ui/core'
 import { hideAddGamePopup } from '../../../store/ui/actions'
 import { submitGame } from '../../../store/actions'
 import PlayerSelector from '../PlayerSelector/PlayerSelector'
 import './AddGameDialog.scss'
 import WinnerSelectBox from '../WinnerSelectBox/WinnerSelectBox'
+import { useAuth0 } from '@auth0/auth0-react'
 
 function AddGameDialog(props) {
+    const { getAccessTokenSilently } = useAuth0()
+
     const [winner, setWinner] = useState(null)
     const [white, setWhite] = useState(null)
     const [black, setBlack] = useState(null)
@@ -30,12 +28,20 @@ function AddGameDialog(props) {
         players,
     } = props
 
+    let token = null;
+    useEffect(() => {
+        async function getToken() {
+            token = await getAccessTokenSilently()
+        }
+        getToken()
+    })
+
     function handleChange(val) {
         setWinner(val)
     }
 
     function handleSubmit() {
-        onSubmit({ winner, white: white.name, black: black.name })
+        onSubmit({ winner, white: white.name, black: black.name }, token)
     }
 
     function handleWhiteChanged(players) {
@@ -44,11 +50,6 @@ function AddGameDialog(props) {
 
     function handleBlackChanged(players) {
         setBlack(players[0])
-    }
-
-    const radioStyle = {
-        justifyContent: 'center',
-        width: '100%',
     }
 
     return (
@@ -97,9 +98,9 @@ function mapState(state) {
 function mapDispatch(dispatch) {
     return {
         onClose: () => dispatch(hideAddGamePopup()),
-        onSubmit: (match) => {
+        onSubmit: (match, token) => {
             dispatch(hideAddGamePopup())
-            dispatch(submitGame(match))
+            dispatch(submitGame(match, token))
         }
     }
 }

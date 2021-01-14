@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
@@ -6,13 +6,23 @@ import {
 } from '@material-ui/core'
 import { hideAddPlayerPopup } from '../../../store/ui/actions'
 import { addPlayer } from '../../../store/actions'
+import { useAuth0 } from '@auth0/auth0-react'
 
 function AddPlayerDialog(props) {
     const [name, setName] = useState('')
     const [error, setError] = useState(false)
 
+    const { getAccessTokenSilently } = useAuth0()
+    let token = null;
+    useEffect(() => {
+        async function getToken() {
+            token = await getAccessTokenSilently()
+        }
+        getToken()
+    })
+
     function submit() {
-        props.onSubmit(name)
+        props.onSubmit(name, token)
         props.onClose()
     }
 
@@ -51,7 +61,7 @@ function AddPlayerDialog(props) {
 function mapDispatch(dispatch) {
     return {
         onClose: () => dispatch(hideAddPlayerPopup()),
-        onSubmit: (name) => dispatch(addPlayer(name)),
+        onSubmit: (name, token) => dispatch(addPlayer(name, token)),
     }
 }
 

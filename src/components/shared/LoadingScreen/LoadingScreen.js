@@ -5,7 +5,7 @@ import './LoadingScreen.scss'
 const spinners = [<FaChessKnight />, <FaChessBishop />, <FaChessKing />, <FaChessQueen />, <FaChessPawn />, <FaChessRook />]
 let num = Math.floor(Math.random() * spinners.length)
 const SelectedSpinner = spinners[num]
-function LoadingScreen(props) {
+function LoadingScreen() {
     return (
         <div className="loading-screen">{SelectedSpinner}</div>
     )

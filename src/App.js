@@ -1,42 +1,20 @@
 import React from 'react'
-import { Switch, Route } from 'react-router-dom'
 import './App.scss'
-import {
-    useMediaQuery,
-    useTheme,
-} from '@material-ui/core'
-import NavBar from './components/shared/Navbar/NavBar'
-import Home from './components/Home/Home'
-import AddGameDialog from './components/shared/Popups/AddGameDialog'
-import AddPlayerDialog from './components/shared/Popups/AddPlayerDialog'
-import AddTournamentGameDialog from './components/shared/Popups/AddTournamentGameDialog'
-import AddTournamentDialog from './components/shared/Popups/AddTournamentDialog'
-import User from './components/User/User'
-import Tournament from './components/Tournament/Tournament'
-import DeleteGameDialog from './components/shared/Popups/DeleteGameDialog'
-import UpdateTournamentGame from './components/shared/Popups/UpdateTournamentGame'
+import { Auth0Provider } from "@auth0/auth0-react"
+import AppContent from "./components/AppContent"
 
 function App() {
-    const theme = useTheme()
-    const smallOrDown = useMediaQuery(theme.breakpoints.down('sm'))
     return (
-        <div className="App">
-            <NavBar />
-            <main>
-                <Switch>
-                    <Route path={`${process.env.PUBLIC_URL}/tournament/:id`} component={Tournament} />
-                    <Route path={`${process.env.PUBLIC_URL}/tournament/`} component={Tournament} />
-                    <Route path={`${process.env.PUBLIC_URL}/user/:id`} component={User} />
-                    <Route path={`${process.env.PUBLIC_URL}/`} component={Home} />
-                </Switch>
-                <AddPlayerDialog />
-                <AddGameDialog />
-                <AddTournamentGameDialog />
-                <DeleteGameDialog />
-                <AddTournamentDialog />
-                <UpdateTournamentGame fullScreen={smallOrDown} />
-            </main>
-        </div>
+        <Auth0Provider
+          domain="dev-nf6chill.eu.auth0.com"
+          useRefreshTokens={true}
+          audience="https://api.petteramu.com/sjakk"
+          scope="read:current_user update:current_user_metadata add:game add:tournament add:user delete:game"
+          clientId="cQExMny3hN3QYKvPpA2EZGqt8r6j1a5j"
+          redirectUri={`https://petteramu.com${process.env.PUBLIC_URL}`}
+        >
+            <AppContent />
+        </Auth0Provider>
     )
 }
 export default App

@@ -7,7 +7,7 @@ import createReducers from './store/reducers'
 import { createStore, applyMiddleware, compose } from 'redux'
 import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
-import { fetchMatches, fetchPlayers } from './store/actions'
+import { fetchMatchesAndPlayers } from './store/actions'
 import { fetchTournaments } from './store/tournaments/actions';
 import { createBrowserHistory } from 'history/cjs/history.min';
 import { routerMiddleware, ConnectedRouter } from 'connected-react-router';
@@ -16,8 +16,7 @@ export const history = createBrowserHistory()
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 const store = createStore(createReducers(history), composeEnhancers(applyMiddleware(thunkMiddleware, routerMiddleware(history))))
-store.dispatch(fetchMatches())
-store.dispatch(fetchPlayers())
+store.dispatch(fetchMatchesAndPlayers())
 store.dispatch(fetchTournaments())
 
 ReactDOM.render(

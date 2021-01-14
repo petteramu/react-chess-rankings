@@ -1,0 +1,29 @@
+@import "../../../scss/variables";
+
+#profile-info {
+    display: flex;
+    align-items: center;
+    height: 100%;
+
+    img {
+        width: 25px;
+        border-radius: 50%;
+        margin: 0 -0.5em 0 0;
+    }
+}
+
+@media screen and (max-device-width: $maxMobileWidth) {
+    #profile-info {
+        margin-left: auto;
+        width: 100%;
+    }
+
+    li {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    img {
+        display: none;
+    }
+}

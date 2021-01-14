@@ -8,7 +8,6 @@ import {
 import HomeRankingListComponent from './RankingListComponent'
 import HomeMatchHistory from './HomeMatchHistory'
 import './Home.scss'
-import LoadingScreen from '../shared/LoadingScreen/LoadingScreen'
 import MMRChart from '../shared/Charts/MMRChart'
 
 const Home = function Home(props) {
@@ -23,7 +22,7 @@ const Home = function Home(props) {
     const disableLegend = useMediaQuery(theme.breakpoints.down('sm'))
 
     const displayLoadingScreen = (lacksPlayers || lacksMatches) && isFetching
-    if (displayLoadingScreen) return <LoadingScreen />
+    if (displayLoadingScreen) return null;
 
     return (
         <div id="Home">

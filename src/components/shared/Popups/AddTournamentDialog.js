@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
     Dialog,
@@ -21,6 +21,7 @@ import PlayerSelector from '../PlayerSelector/PlayerSelector'
 import TournamentInformation from './TournamentInformation'
 import { hideAddTournamentPopup } from '../../../store/ui/actions'
 import { createTournament } from '../../../store/tournaments/actions'
+import { useAuth0 } from '@auth0/auth0-react'
 
 const styles = () => ({
     dialogContent: {
@@ -42,6 +43,15 @@ const styles = () => ({
 })
 
 function AddTournamentDialog(props) {
+    const { getAccessTokenSilently } = useAuth0()
+    let token = null;
+    useEffect(() => {
+        async function getToken() {
+            token = await getAccessTokenSilently()
+        }
+        getToken()
+    })
+
     const {
         open,
         submit,
@@ -59,7 +69,7 @@ function AddTournamentDialog(props) {
             name,
             participants,
             double: double === 'double',
-        })
+        }, token)
         close()
     }
 
@@ -134,7 +144,7 @@ function mapState(state) {
 function mapDispatch(dispatch) {
     return {
         close: () => dispatch(hideAddTournamentPopup()),
-        submit: (data) => dispatch(createTournament(data)),
+        submit: (data, token) => dispatch(createTournament(data, token)),
     }
 }
 

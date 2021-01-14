@@ -1,18 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Checkbox, FormControlLabel } from '@material-ui/core'
 import { hideDeleteMatchPopup } from '../../../store/ui/actions'
 import { deleteGame } from '../../../store/actions'
 import { connect } from 'react-redux'
+import { useAuth0 } from '@auth0/auth0-react'
 
 function AddGameDialog(props) {
+    const { getAccessTokenSilently } = useAuth0()
+    let token = null;
+    useEffect(() => {
+        async function getToken() {
+            token = await getAccessTokenSilently()
+        }
+        getToken()
+    })
+
     const { match, open, close, submit } = props
     const [sure, setSure] = useState(false)
     if(!match) return null
 
     const toggleSure = () => setSure(!sure)
     const handleSubmit = () => {
-        submit(match.id)
+        submit(match.id, token)
         close()
     }
     const checkboxStyle = {
@@ -56,7 +66,7 @@ function mapState(state) {
 function mapDispatch(dispatch) {
     return {
         close: () => dispatch(hideDeleteMatchPopup()),
-        submit: (matchId) => dispatch(deleteGame(matchId))
+        submit: (matchId, token) => dispatch(deleteGame(matchId, token))
     }
 }
 

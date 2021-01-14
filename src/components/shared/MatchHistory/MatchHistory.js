@@ -4,6 +4,7 @@ import './MatchHistory.scss'
 import { nextPage, previousPage } from '../../../store/actions'
 import { showDeleteMatchPopup } from '../../../store/ui/actions'
 import { connect } from 'react-redux';
+import { withAuth0 } from '@auth0/auth0-react';
 
 class MatchHistory extends React.Component {
     constructor (props) {
@@ -27,8 +28,10 @@ class MatchHistory extends React.Component {
     render () {
         const isFetching = this.props.isFetching
         if(isFetching && !this.props.matches.length) return <h2>Loading...</h2>
-
-        const page = this.props.matches.map((data) => <MatchResult onClick={this.props.showDeleteMatchPopup.bind(this, data)} style={{opacity: isFetching ? 0.5 : 1}} key={data.id} match={data} />)
+        const page = this.props.matches.map((data) => {
+            return <MatchResult onClick={this.props.showDeleteMatchPopup.bind(this, data)} style={{opacity: isFetching ? 0.5 : 1}} key={data.id} match={data} />
+        })
+        
         return (
                 <ul ref={this.listRef} className="match-history" >
                     { page }
@@ -43,4 +46,4 @@ function mapDispatch(dispatch) {
     }
 }
 
-export default connect(null, mapDispatch)(MatchHistory)
+export default connect(null, mapDispatch)(withAuth0(MatchHistory))

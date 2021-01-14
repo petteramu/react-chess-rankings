@@ -30,7 +30,7 @@ function fetchTournaments() {
     }
 }
 
-function createTournament(tournament) {
+function createTournament(tournament, accessToken) {
     return function create(dispatch) {
         dispatch(requestTournaments())
 
@@ -45,6 +45,9 @@ function createTournament(tournament) {
         fetch(`${url}/tournament`, {
             method: 'POST',
             mode: 'cors',
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            },
             body: JSON.stringify(body),
         })
             .then((response) => response.json(), (error) => console.log(error))
@@ -68,13 +71,16 @@ function fetchTournamentDetails(tournamentId) {
     }
 }
 
-function submitTournamentGame({ white, black, winner, id }) {
+function submitTournamentGame({ white, black, winner, id }, accessToken) {
     async function deleteGameIfNecessary(allMatches) {
         const existing = allMatches.find((match) => match.id === id)
         if (existing) {
             await fetch(`${url}/game/${id}`, {
                 method: 'DELETE',
                 mode: 'cors',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                },
             })
         }
     }

@@ -112,7 +112,7 @@ function mapState(state, ownProps) {
         if (match.white.key === selfName) {
             let winner
             if (match.winner === 'remis') winner = 'remis'
-            else if (match.winner === 'blwhiteack') winner = true
+            else if (match.winner === 'white') winner = true
             return { color: 'white', winner }
         }
         if (match.black.key === selfName) {

@@ -28,7 +28,8 @@ class DropdownItem extends React.Component  {
                 onKeyDown={onKeyDown}
                 onBlur={onBlur}
                 onClick={this.props.onClick}
-                to={linkTo}>
+                to={linkTo}
+            >
                     {text}
             </Link>
         )
