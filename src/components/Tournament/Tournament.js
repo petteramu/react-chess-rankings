@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import TournamentDetails from './TournamentDetails'
 import LoadingScreen from '../shared/LoadingScreen/LoadingScreen'
+import { MatchPropType, TournamentType } from '../../utils/propTypes'
 
 function TournamentItem(props) {
     const { id, created, tournamentName } = props
@@ -34,12 +35,19 @@ function Tournament(props) {
             { tournamentId && <TournamentDetails tournamentId={tournamentId} />}
             { !tournamentId
                 && (
-                <>
-                    <h1>Tournaments</h1>
-                    <div className="tournament-list">
-                        { tournaments.map((tournament) => <TournamentItem {...tournament} />)}
-                    </div>
-                </>
+                    <>
+                        <h1>Tournaments</h1>
+                        <div className="tournament-list">
+                            { tournaments.map((tournament) => (
+                                <TournamentItem
+                                    key={tournament.id}
+                                    id={tournament.id}
+                                    created={tournament.created}
+                                    tournamentName={tournament.tournamentName}
+                                />
+                            ))}
+                        </div>
+                    </>
                 )}
         </div>
     )
@@ -52,9 +60,26 @@ function mapState(state) {
     }
 }
 
+TournamentItem.propTypes = {
+    id: PropTypes.string.isRequired,
+    created: PropTypes.number,
+    tournamentName: PropTypes.string,
+}
+
+TournamentItem.defaultProps = {
+    created: null,
+    tournamentName: '',
+}
+
 Tournament.propTypes = {
-    isFetching: PropTypes.bool.isRequired,
-    match: PropTypes.string.isRequired,
+    isFetching: PropTypes.bool,
+    match: MatchPropType.isRequired,
+    tournaments: PropTypes.arrayOf(TournamentType),
+}
+
+Tournament.defaultProps = {
+    tournaments: [],
+    isFetching: false,
 }
 
 export default connect(mapState)(Tournament)

@@ -36,7 +36,7 @@ class TournamentDetails extends React.Component {
         } = this.props
 
         if (!tournamentDetails) return null
-        
+
         const {
             tournamentName,
             created,
@@ -48,7 +48,10 @@ class TournamentDetails extends React.Component {
         if ((!tournamentId !== id) && isFetching) return <LoadingScreen />
 
         const createdString = getReadableDate(new Date(created))
-        const rounds = (matches) ? matches.map((round, index) => <TournamentRound key={index} roundNumber={index + 1} matches={round} />) : null
+        const rounds = (matches)
+            // eslint-disable-next-line react/no-array-index-key
+            ? matches.map((r, i) => <TournamentRound key={i} roundNumber={i + 1} matches={r} />)
+            : null
         return (
             <div id="TournamentDetails">
                 <h1>{ tournamentName }</h1>
@@ -56,12 +59,12 @@ class TournamentDetails extends React.Component {
                     <TournamentRankingList />
                     <div className="tournament-info">
                         <div>
-                            <b>Created:</b> 
+                            <b>Created:</b>
                             {' '}
                             { createdString }
                         </div>
                         <div>
-                            <b>Double rounds:</b> 
+                            <b>Double rounds:</b>
                             {' '}
                             { (double) ? 'Yes' : 'No'}
                         </div>
@@ -87,7 +90,9 @@ class TournamentDetails extends React.Component {
                                 <span className="non-verbose-info">remaining:</span>
                             </b>
                             {' '}
-                            { _.flatten(matches).filter((match) => match.winner === undefined).length }
+                            {
+                                _.flatten(matches).filter((m) => m.winner === undefined).length
+                            }
                         </div>
                     </div>
                 </div>
@@ -101,7 +106,7 @@ class TournamentDetails extends React.Component {
 
 TournamentDetails.propTypes = {
     tournamentDetails: PropTypes.shape({
-        matches: PropTypes.arrayOf(MatchPropType).isRequired,
+        matches: PropTypes.arrayOf(PropTypes.arrayOf(MatchPropType)).isRequired,
         id: PropTypes.string.isRequired,
         tournamentName: PropTypes.string.isRequired,
         created: PropTypes.number.isRequired,

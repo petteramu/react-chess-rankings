@@ -1,28 +1,32 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-import { connect } from 'react-redux';
-import { Dialog, DialogTitle, DialogContent, FormControl, DialogActions, Button, Radio, RadioGroup, FormControlLabel, withStyles } from '@material-ui/core';
-import { submitTournamentGame } from '../../../store/tournaments/actions';
-import { hideAddTournamentGamePopup } from '../../../store/ui/actions';
+import { connect } from 'react-redux'
+import {
+    Dialog, DialogTitle, DialogContent, DialogActions, Button, withStyles,
+} from '@material-ui/core'
+import { submitTournamentGame } from '../../../store/tournaments/actions'
+import { hideAddTournamentGamePopup } from '../../../store/ui/actions'
 import WinnerSelectBox from '../WinnerSelectBox/WinnerSelectBox'
 import './AddTournamentGameDialog.scss'
 
-const styles = theme => ({
+const styles = (theme) => ({
     root: {
         justifyContent: 'center',
         width: '100%',
         [theme.breakpoints.down('xs')]: {
-            flexDirection: 'column'
+            flexDirection: 'column',
         },
         [theme.breakpoints.up('sm')]: {
-            flexDirection: 'row'
-        }
-    }
+            flexDirection: 'row',
+        },
+    },
 })
 
 function AddTournamentGameDialog(props) {
     const [winner, setWinner] = useState(null)
-    const { match, close, submit, open, classes, fullScreen } = props
+    const {
+        match, close, submit, open, fullScreen,
+    } = props
     if (!match) return null
 
     function handleSubmit() {
@@ -61,18 +65,18 @@ function AddTournamentGameDialog(props) {
                     <WinnerSelectBox
                         type="white"
                         label={match.white.key}
-                        active={winner === "white"}
+                        active={winner === 'white'}
                         onClick={handleChange}
                     />
                     <WinnerSelectBox
                         type="remis"
-                        active={winner === "remis"}
+                        active={winner === 'remis'}
                         onClick={handleChange}
                     />
                     <WinnerSelectBox
                         type="black"
                         label={match.black.key}
-                        active={winner === "black"}
+                        active={winner === 'black'}
                         onClick={handleChange}
                     />
                 </div>
@@ -95,29 +99,29 @@ function mapState(state) {
 function mapDispatch(dispatch) {
     return {
         close: () => dispatch(hideAddTournamentGamePopup()),
-        submit: (match) => dispatch(submitTournamentGame(match))
+        submit: (match) => dispatch(submitTournamentGame(match)),
     }
 }
 
 AddTournamentGameDialog.propTypes = {
-    open: PropTypes.bool,
-    close: PropTypes.func,
-    submit: PropTypes.func,
-    classes: PropTypes.object,
+    open: PropTypes.bool.isRequired,
+    close: PropTypes.func.isRequired,
+    submit: PropTypes.func.isRequired,
     match: PropTypes.shape({
         white: PropTypes.shape({
-            key: PropTypes.string
+            key: PropTypes.string,
         }),
         black: PropTypes.shape({
-            key: PropTypes.string
+            key: PropTypes.string,
         }),
-        id: PropTypes.string
+        id: PropTypes.string,
     }),
     fullScreen: PropTypes.bool,
 }
 
 AddTournamentGameDialog.defaultProps = {
     fullScreen: false,
+    match: null,
 }
 
 export default withStyles(styles)(connect(mapState, mapDispatch)(AddTournamentGameDialog))

@@ -1,46 +1,40 @@
 import React from 'react'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import MatchResult from '../MatchResult/MatchResult'
 import './MatchHistory.scss'
-import { nextPage, previousPage } from '../../../store/actions'
 import { showDeleteMatchPopup } from '../../../store/ui/actions'
-import { connect } from 'react-redux';
+import { MatchPropType } from '../../../utils/propTypes'
 
-class MatchHistory extends React.Component {
-    constructor (props) {
-        super(props)
-        this.state = { listPos: undefined }
-        this.listRef = React.createRef()
-        this.nextPage = this.nextPage.bind(this)
-        this.previousPage = this.previousPage.bind(this)
-    }
+function MatchHistory(props) {
+    const { isFetching, matches, dispatchShowDeleteMatchPopup } = props
+    if (isFetching && !matches.length) return <h2>Loading...</h2>
 
-    nextPage () {
-        const { dispatch } = this.props
-        dispatch(nextPage())
-    }
-
-    previousPage () {
-        const { dispatch } = this.props
-        dispatch(previousPage())
-    }
-
-    render () {
-        const isFetching = this.props.isFetching
-        if(isFetching && !this.props.matches.length) return <h2>Loading...</h2>
-
-        const page = this.props.matches.map((data) => <MatchResult onClick={this.props.showDeleteMatchPopup.bind(this, data)} style={{opacity: isFetching ? 0.5 : 1}} key={data.id} match={data} />)
-        return (
-                <ul ref={this.listRef} className="match-history" >
-                    { page }
-                </ul>
-            )
-    }
+    const page = matches.map((data) => (
+        <MatchResult
+            onClick={dispatchShowDeleteMatchPopup}
+            style={{ opacity: isFetching ? 0.5 : 1 }}
+            key={data.id}
+            match={data}
+        />
+    ))
+    return (
+        <ul className="match-history">
+            { page }
+        </ul>
+    )
 }
 
 function mapDispatch(dispatch) {
     return {
-        showDeleteMatchPopup: (match) => dispatch(showDeleteMatchPopup(match))
+        dispatchShowDeleteMatchPopup: (match) => dispatch(showDeleteMatchPopup(match)),
     }
+}
+
+MatchHistory.propTypes = {
+    isFetching: PropTypes.bool.isRequired,
+    matches: PropTypes.arrayOf(MatchPropType).isRequired,
+    dispatchShowDeleteMatchPopup: PropTypes.func.isRequired,
 }
 
 export default connect(null, mapDispatch)(MatchHistory)

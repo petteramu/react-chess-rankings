@@ -2,32 +2,36 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import {
- Dialog, TextField, DialogActions, Button, DialogTitle, DialogContent, DialogContentText 
+    Dialog, TextField, DialogActions, Button, DialogTitle, DialogContent, DialogContentText,
 } from '@material-ui/core'
 import { hideAddPlayerPopup } from '../../../store/ui/actions'
 import { addPlayer } from '../../../store/actions'
 
 function AddPlayerDialog(props) {
+    const {
+        open, onSubmit, onClose, takenNames,
+    } = props
     const [name, setName] = useState('')
     const [error, setError] = useState(false)
 
     function submit() {
-        props.onSubmit(name)
-        props.onClose()
+        onSubmit(name)
+        onClose()
     }
 
     function handleChange(e) {
         const { value } = e.target
-        const nameTaken = props.takenNames.indexOf(value.toLowerCase()) > -1
+        const nameTaken = takenNames.indexOf(value.toLowerCase()) > -1
         if (nameTaken) {
-            return setError('Name already taken')
+            setError('Name already taken')
+        } else {
+            setError(false)
+            setName(value)
         }
-        setError(false)
-        setName(value)
     }
 
     return (
-        <Dialog open={props.open} onClose={props.onClose}>
+        <Dialog open={open} onClose={onClose}>
             <DialogTitle component="legend">Add player</DialogTitle>
             <DialogContent>
                 { error && <DialogContentText>{ error }</DialogContentText> }
@@ -41,7 +45,7 @@ function AddPlayerDialog(props) {
                 />
             </DialogContent>
             <DialogActions>
-                <Button onClick={props.onClose}>Cancel</Button>
+                <Button onClick={onClose}>Cancel</Button>
                 <Button onClick={submit} disabled={error}>Submit</Button>
             </DialogActions>
         </Dialog>
@@ -65,7 +69,7 @@ function mapState(state) {
 AddPlayerDialog.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onClose: PropTypes.func.isRequired,
-    takenNames: PropTypes.array.isRequired,
+    takenNames: PropTypes.arrayOf(PropTypes.string).isRequired,
     open: PropTypes.bool.isRequired,
 }
 

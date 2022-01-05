@@ -34,6 +34,7 @@ function User(props) {
     if (isFetching) return null
 
     const { match: { params: { id: name } } } = props
+
     const {
         statistics: {
             ranking,
@@ -56,7 +57,7 @@ function User(props) {
         <section id="User">
             <Typography className="title" type="h1">{ name }</Typography>
             <div className="graph">
-                <UserMMRChart players={players} defaultSelected={[name]}/>
+                <UserMMRChart players={players} defaultSelected={[name]} />
             </div>
             <div className="half-container">
                 <UserStatistics
@@ -94,13 +95,29 @@ function User(props) {
 
 User.defaultProps = {
     isFetching: false,
+    match: null,
+    statistics: {
+        ranking: 0,
+        peak: 0,
+        wins: 0,
+        remis: 0,
+        losses: 0,
+        whiteWins: 0,
+        whiteRemis: 0,
+        whiteLosses: 0,
+        blackWins: 0,
+        blackRemis: 0,
+        blackLosses: 0,
+    },
+    players: [],
+    matches: [],
 }
 
 User.propTypes = {
-    match: ReactRouterPropTypes.match.isRequired,
-    statistics: statisticsPropTypes.isRequired,
-    players: PropTypes.arrayOf(PlayerPropType).isRequired,
-    matches: PropTypes.arrayOf(MatchPropType).isRequired,
+    match: ReactRouterPropTypes.match,
+    statistics: PropTypes.shape(statisticsPropTypes),
+    players: PropTypes.arrayOf(PlayerPropType),
+    matches: PropTypes.arrayOf(MatchPropType),
     isFetching: PropTypes.bool,
 }
 
@@ -159,8 +176,10 @@ function mapState(state, ownProps) {
             return { isFetching: state.players.isFetching || state.matches.isFetching }
         }
 
-        const matches = _.filter(state.matches.matches,
-            (match) => match.white.key === id || match.black.key === id)
+        const matches = _.filter(
+            state.matches.matches,
+            (match) => match.white.key === id || match.black.key === id,
+        )
 
         const whiteMatches = _.filter(matches, (match) => match.white.key === id)
         const whiteWins = _.filter(whiteMatches, (match) => match.winner === 'white').length

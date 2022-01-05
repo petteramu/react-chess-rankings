@@ -1,24 +1,34 @@
 import React from 'react'
 import './TournamentRound.scss'
-import { showAddTournamentGamePopup, showUpdateTournamentMatchPopup } from '../../../store/ui/actions'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { showAddTournamentGamePopup, showUpdateTournamentMatchPopup } from '../../../store/ui/actions'
 import MatchResult from '../MatchResult/MatchResult'
-import { submitTournamentGame } from '../../../store/tournaments/actions';
+import { MatchPropType } from '../../../utils/propTypes'
 
 function TournamentRound(props) {
-    const { matches, roundNumber } = props
+    const {
+        matches,
+        roundNumber,
+        updateResult,
+        addResult,
+    } = props
 
     function onClick(match) {
-        if (match.winner) props.updateResult(match)
-        else props.addResult(match)
+        if (match.winner) updateResult(match)
+        else addResult(match)
     }
 
     return (
         <div className="tournament-round">
             <h3>
-                Round { roundNumber }
+                Round
+                {' '}
+                { roundNumber }
             </h3>
-            { matches.map((match) => <MatchResult onClick={onClick.bind(this, match)} key={match.id} match={match} />) }
+            { matches.map((match) => (
+                <MatchResult onClick={onClick} key={match.id} match={match} />
+            ))}
         </div>
     )
 }
@@ -26,8 +36,15 @@ function TournamentRound(props) {
 function mapDispatch(dispatch) {
     return {
         addResult: (match) => dispatch(showAddTournamentGamePopup(match)),
-        updateResult: (match) => dispatch(showUpdateTournamentMatchPopup(match))
+        updateResult: (match) => dispatch(showUpdateTournamentMatchPopup(match)),
     }
+}
+
+TournamentRound.propTypes = {
+    matches: PropTypes.arrayOf(MatchPropType).isRequired,
+    roundNumber: PropTypes.number.isRequired,
+    updateResult: PropTypes.func.isRequired,
+    addResult: PropTypes.func.isRequired,
 }
 
 export default connect(null, mapDispatch)(TournamentRound)

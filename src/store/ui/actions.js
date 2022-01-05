@@ -14,29 +14,30 @@ const HIDE_DELETE_MATCH_POPUP = 'HIDE_DELETE_MATCH_POPUP'
 const SHOW_UPDATE_TOURNAMENT_MATCH_POPUP = 'SHOW_UPDATE_TOURNAMENT_MATCH_POPUP'
 const HIDE_UPDATE_TOURNAMENT_MATCH_POPUP = 'HIDE_UPDATE_TOURNAMENT_MATCH_POPUP'
 
-const showAddTournamentGamePopup = (match) => { return { type: SHOW_ADD_TOURNAMENT_GAME_POPUP, payload: match } }
-const hideAddTournamentGamePopup = () => { return { type: HIDE_ADD_TOURNAMENT_GAME_POPUP } }
-const showAddTournamentPopup = () => { return { type: SHOW_ADD_TOURNAMENT_POPUP }}
-const hideAddTournamentPopup = () => { return { type: HIDE_ADD_TOURNAMENT_POPUP }}
-const showAddGamePopup = () => { return { type: SHOW_ADD_GAME_POPUP } }
-const hideAddGamePopup = () => { return { type: HIDE_ADD_GAME_POPUP } }
-const showAddPlayerPopup = () => { return { type: SHOW_ADD_PLAYER_POPUP } }
-const hideAddPlayerPopup = () => { return { type: HIDE_ADD_PLAYER_POPUP } }
-const showMobileMenu = () => { return { type: SHOW_MOBILE_MENU } }
-const hideMobileMenu = () => { return { type: HIDE_MOBILE_MENU } }
-const showDeleteMatchPopup = (match) => { return { type: SHOW_DELETE_MATCH_POPUP, payload: match } }
-const hideDeleteMatchPopup = () => { return { type: HIDE_DELETE_MATCH_POPUP } }
-const hideUpdateTournamentMatchPopup = () => { return { type: HIDE_UPDATE_TOURNAMENT_MATCH_POPUP } }
-const showUpdateTournamentMatchPopup = (match) => {
+const showAddTournamentGamePopup = (match) => ({
+    type: SHOW_ADD_TOURNAMENT_GAME_POPUP,
+    payload: match,
+})
+const hideAddTournamentGamePopup = () => ({ type: HIDE_ADD_TOURNAMENT_GAME_POPUP })
+const showAddTournamentPopup = () => ({ type: SHOW_ADD_TOURNAMENT_POPUP })
+const hideAddTournamentPopup = () => ({ type: HIDE_ADD_TOURNAMENT_POPUP })
+const showAddGamePopup = () => ({ type: SHOW_ADD_GAME_POPUP })
+const hideAddGamePopup = () => ({ type: HIDE_ADD_GAME_POPUP })
+const showAddPlayerPopup = () => ({ type: SHOW_ADD_PLAYER_POPUP })
+const hideAddPlayerPopup = () => ({ type: HIDE_ADD_PLAYER_POPUP })
+const showMobileMenu = () => ({ type: SHOW_MOBILE_MENU })
+const hideMobileMenu = () => ({ type: HIDE_MOBILE_MENU })
+const showDeleteMatchPopup = (match) => ({ type: SHOW_DELETE_MATCH_POPUP, payload: match })
+const hideDeleteMatchPopup = () => ({ type: HIDE_DELETE_MATCH_POPUP })
+const hideUpdateTournamentMatchPopup = () => ({ type: HIDE_UPDATE_TOURNAMENT_MATCH_POPUP })
+const showUpdateTournamentMatchPopup = (match) => ({
+    type: SHOW_UPDATE_TOURNAMENT_MATCH_POPUP,
+    payload: match,
+})
+function setUserMatchHistoryFilter(filter) {
     return {
-        type: SHOW_UPDATE_TOURNAMENT_MATCH_POPUP,
-        payload: match
-    }
-}
-function setUserMatchHistoryFilter(filter) { 
-    return  {
         type: SET_USER_MATCH_HISTORY_FILTER,
-        payload: filter
+        payload: filter,
     }
 }
 
@@ -70,5 +71,5 @@ export {
     showDeleteMatchPopup,
     hideDeleteMatchPopup,
     showUpdateTournamentMatchPopup,
-    hideUpdateTournamentMatchPopup
+    hideUpdateTournamentMatchPopup,
 }

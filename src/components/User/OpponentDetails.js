@@ -5,7 +5,7 @@ import _ from 'lodash'
 import './OpponentDetails.scss'
 import { FaChessKnight } from 'react-icons/fa'
 import { MdExpandMore } from 'react-icons/md'
-import { ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core'
+import { Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core'
 import InterGamesCell from './InterGamesCell'
 import Table from '../shared/Table/Table'
 import { PlayerPropType, MatchPropType } from '../../utils/propTypes'
@@ -39,8 +39,8 @@ function OpponentDetails(props) {
     }
 
     return (
-        <ExpansionPanel className="opponent-details">
-            <ExpansionPanelSummary
+        <Accordion className="opponent-details">
+            <AccordionSummary
                 expandIcon={<MdExpandMore />}
                 aria-controls={`userDetails_${opponent.name}`}
             >
@@ -53,10 +53,10 @@ function OpponentDetails(props) {
                     </small>
                 </span>
                 <div className="history">
-                    { lastFive.map((match) => <span className={getLastFiveClasses(match)}><FaChessKnight size="25" /></span>)}
+                    { lastFive.map((match) => <span key={match.id} className={getLastFiveClasses(match)}><FaChessKnight size="25" /></span>)}
                 </div>
-            </ExpansionPanelSummary>
-            <ExpansionPanelDetails
+            </AccordionSummary>
+            <AccordionDetails
                 id={`userDetails_${opponent.name}`}
             >
 
@@ -64,8 +64,8 @@ function OpponentDetails(props) {
                     <Table data={tableData} />
                 </div>
                 <div className="half-container" />
-            </ExpansionPanelDetails>
-        </ExpansionPanel>
+            </AccordionDetails>
+        </Accordion>
     )
 }
 
@@ -90,9 +90,11 @@ OpponentDetails.defaultProps = {
 function mapState(state, ownProps) {
     const { selfName, opponent } = ownProps
     const opponentName = opponent.name
-    const matches = _.filter(state.matches.matches,
+    const matches = _.filter(
+        state.matches.matches,
         (match) => (match.white.key === selfName || match.black.key === selfName)
-        && (match.white.key === opponentName || match.black.key === opponentName))
+        && (match.white.key === opponentName || match.black.key === opponentName),
+    )
 
     const whiteMatches = _.filter(matches, (match) => match.white.key === selfName)
     const whiteWins = _.filter(whiteMatches, (match) => match.winner === 'white').length

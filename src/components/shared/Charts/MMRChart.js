@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import _ from 'lodash'
 import {
     LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
 } from 'recharts'
-import { useMediaQuery, useTheme } from '@material-ui/core'
 import './MMRChart.scss'
 
 const red = '#f72c25'
@@ -32,8 +31,8 @@ function MMRChart(props) {
         maxHeight,
         disableLegend,
     } = props
-    const rootEle = React.createRef()
-    const [pageNumber, setPage] = useState(1)
+    const rootEle = useRef(null)
+    const [pageNumber] = useState(1)
     const start = data.length - (pageNumber * PAGE_SIZE)
     const end = start + PAGE_SIZE
     const page = data.slice(start, end)
@@ -54,7 +53,7 @@ function MMRChart(props) {
 
     window.addEventListener('resize', _.throttle(updateWidth, 500, { trailing: true }))
     return (
-        <div className="MMRChart-container" ref={rootEle} style={{ width: `100%` }}>
+        <div className="MMRChart-container" ref={rootEle} style={{ width: '100%' }}>
             { title && <h2>{title}</h2> }
             <LineChart
                 width={width}
@@ -173,12 +172,16 @@ MMRChart.propTypes = {
     })).isRequired,
     maxHeight: PropTypes.number,
     disableLegend: PropTypes.bool,
+    data: PropTypes.arrayOf(PropTypes.shape({
+        name: PropTypes.string,
+    })),
 }
 
 MMRChart.defaultProps = {
     title: '',
     maxHeight: 600,
     disableLegend: false,
+    data: [],
 }
 
 export default connect(mapStateToProps)(MMRChart)

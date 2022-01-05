@@ -20,27 +20,34 @@ function WinnerSelectBox(props) {
         }
     }
 
+    function onKeyDown() {
+
+    }
+
     return (
         <div className="select-winner-input">
             { type !== 'remis' && (
-                <label htmlFor={labelClasses} onClick={handleClick}>
-                    <span className="label-text">{ label }</span>
-                    <div
-                        id={labelClasses}
-                        className={selectWinnerClasses}
-                        role="checkbox"
-                        aria-checked={active}
-                        tabIndex="0"
-                    >
-                        <div className="svg-container"><FaChessKnight size="60" /></div>
-                    </div>
-                </label>
+                <div onClick={handleClick} onKeyDown={onKeyDown} role="button" tabIndex="0">
+                    <label htmlFor={labelClasses}>
+                        <span className="label-text">{ label }</span>
+                        <div
+                            id={labelClasses}
+                            className={selectWinnerClasses}
+                            role="checkbox"
+                            aria-checked={active}
+                            tabIndex="0"
+                        >
+                            <div className="svg-container"><FaChessKnight size="60" /></div>
+                        </div>
+                    </label>
+                </div>
             )}
             { type === 'remis' && (
                 <div
                     id="remis-box"
                     className={selectWinnerClasses}
                     onClick={handleClick}
+                    onKeyDown={onKeyDown}
                     role="checkbox"
                     aria-checked={active}
                     tabIndex="0"

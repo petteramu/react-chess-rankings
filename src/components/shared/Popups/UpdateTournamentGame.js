@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import {
     Dialog,
@@ -41,6 +41,12 @@ function UpdateTournamentGame(props) {
     } = props
     const [sure, setSure] = useState(false)
     const [winner, setWinner] = useState(null)
+
+    useEffect(() => {
+        setSure(false)
+        setWinner(null)
+    }, [open])
+
     if (!match) return null
 
     const handleWinnerChanged = (val) => setWinner(val)
@@ -138,7 +144,10 @@ UpdateTournamentGame.propTypes = {
     open: PropTypes.bool.isRequired,
     close: PropTypes.func.isRequired,
     submit: PropTypes.func.isRequired,
-    classes: PropTypes.object,
+    classes: PropTypes.shape({
+        radioParent: PropTypes.string,
+        checkbox: PropTypes.string,
+    }),
     match: PropTypes.shape({
         white: PropTypes.shape({
             key: PropTypes.string,
@@ -147,12 +156,17 @@ UpdateTournamentGame.propTypes = {
             key: PropTypes.string,
         }),
         id: PropTypes.string,
-    }).isRequired,
+    }),
     fullScreen: PropTypes.bool,
 }
 
 UpdateTournamentGame.defaultProps = {
     fullScreen: true,
+    classes: {
+        radioParent: '',
+        checkbox: '',
+    },
+    match: null,
 }
 
 export default connect(mapState, mapDispatch)(withStyles(styles)(UpdateTournamentGame))

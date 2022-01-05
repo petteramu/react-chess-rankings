@@ -7,17 +7,13 @@ import {
     DialogContent,
     DialogActions,
     Button,
-    FormControlLabel,
-    Radio,
-    FormControl,
-    FormLabel,
-    RadioGroup,
 } from '@material-ui/core'
 import { hideAddGamePopup } from '../../../store/ui/actions'
 import { submitGame } from '../../../store/actions'
 import PlayerSelector from '../PlayerSelector/PlayerSelector'
 import './AddGameDialog.scss'
 import WinnerSelectBox from '../WinnerSelectBox/WinnerSelectBox'
+import { PlayerPropType } from '../../../utils/propTypes'
 
 function AddGameDialog(props) {
     const [winner, setWinner] = useState(null)
@@ -38,26 +34,31 @@ function AddGameDialog(props) {
         onSubmit({ winner, white: white.name, black: black.name })
     }
 
-    function handleWhiteChanged(players) {
+    function handleWhiteChanged() {
         setWhite(players[0])
     }
 
-    function handleBlackChanged(players) {
+    function handleBlackChanged() {
         setBlack(players[0])
     }
 
-    const radioStyle = {
-        justifyContent: 'center',
-        width: '100%',
-    }
+    const submitDisabled = !winner || !white || !black || black === white
 
     return (
         <Dialog open={open} onClose={onClose}>
             <DialogTitle id="add-game-dialog-title">Add game</DialogTitle>
             <DialogContent>
                 <div className="player-selector-container">
-                    <PlayerSelector maxSelected={1} players={players} onSelectionChanged={handleWhiteChanged}/>
-                    <PlayerSelector maxSelected={1} players={players} onSelectionChanged={handleBlackChanged}/>
+                    <PlayerSelector
+                        maxSelected={1}
+                        players={players}
+                        onSelectionChanged={handleWhiteChanged}
+                    />
+                    <PlayerSelector
+                        maxSelected={1}
+                        players={players}
+                        onSelectionChanged={handleBlackChanged}
+                    />
                 </div>
                 <div className="select-winner-container">
                     <WinnerSelectBox
@@ -81,7 +82,7 @@ function AddGameDialog(props) {
             </DialogContent>
             <DialogActions>
                 <Button onClick={onClose}>Cancel</Button>
-                <Button onClick={handleSubmit} disabled={!winner || !white || !black || black === white}>Submit</Button>
+                <Button onClick={handleSubmit} disabled={submitDisabled}>Submit</Button>
             </DialogActions>
         </Dialog>
     )
@@ -100,7 +101,7 @@ function mapDispatch(dispatch) {
         onSubmit: (match) => {
             dispatch(hideAddGamePopup())
             dispatch(submitGame(match))
-        }
+        },
     }
 }
 
@@ -108,7 +109,7 @@ AddGameDialog.propTypes = {
     open: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    players: PropTypes.array.isRequired,
+    players: PropTypes.arrayOf(PlayerPropType).isRequired,
 }
 
 export default connect(mapState, mapDispatch)(AddGameDialog)

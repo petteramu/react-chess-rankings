@@ -17,6 +17,10 @@
         grid-template-rows: 2.8em 1em;
     }
 
+    > div {
+        display: contents;
+    }
+
     .info-row {
         background-color: #ececec;
         grid-row: 2;

@@ -1,115 +1,150 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './DropdownMenu.scss'
-import { hideMobileMenu } from '../../../store/ui/actions';
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { hideMobileMenu } from '../../../store/ui/actions'
 import { KEY_CODES } from '../../../utils'
 
-class DropdownItem extends React.Component  {
-    constructor(props) {
-        super(props)
-        this.ref = React.createRef()
-    }
+function DropdownItem(props) {
+    const ref = useRef(null)
+    const {
+        active,
+        linkTo,
+        text,
+        onKeyDown,
+        onBlur,
+        onClick,
+    } = props
 
-    componentDidUpdate() {
-        if(this.props.active) {
-            this.ref.current.focus()
+    useEffect(() => {
+        if (active) {
+            ref.current.focus()
         }
-    }
+    })
 
-    render() {
-        const { active, linkTo, text, onKeyDown, onBlur } = this.props
-        const tabIndex = (active) ? "0" : "-1"
-        return (
-            <Link
-                innerRef={this.ref}
-                className="dropdown-item"
-                tabIndex={tabIndex}
-                onKeyDown={onKeyDown}
-                onBlur={onBlur}
-                onClick={this.props.onClick}
-                to={linkTo}>
-                    {text}
-            </Link>
-        )
-    }
+    const tabIndex = (active) ? '0' : '-1'
+    return (
+        <Link
+            innerRef={ref}
+            className="dropdown-item"
+            tabIndex={tabIndex}
+            onKeyDown={onKeyDown}
+            onBlur={onBlur}
+            onClick={onClick}
+            to={linkTo}
+        >
+            {text}
+        </Link>
+    )
 }
 
-class DropdownMenu extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = { selectedIndex: undefined }
-        this.ref = React.createRef()
-        this.onKeyDown = this.onKeyDown.bind(this)
-        this.blurMenu = this.blurMenu.bind(this)
+function DropdownMenu(props) {
+    const [selectedIndex, setSelectedIndex] = useState(undefined)
+    const ref = useRef(null)
+    const { text, id, subMenus } = props
+
+    function blurMenu(e) {
+        const { target } = e
+        if (ref.current.contains(target) && selectedIndex !== undefined) return
+        if (target.tabIndex !== 0) return
+        ref.current.removeAttribute('aria-expanded')
+        setSelectedIndex(undefined)
     }
 
-    blurMenu(e) {
-        let target = e.target
-        if(this.ref.current.contains(target) && this.state.selectedIndex !== undefined) return
-        if(target.tabIndex !== 0) return
-        this.ref.current.removeAttribute("aria-expanded")
-        this.setState({ selectedIndex: undefined })
-    }
-
-    onKeyDown(e) {
-        var currentIndex
-        let target = e.target
-        switch(e.keyCode) {
+    function onKeyDown(e) {
+        let currentIndex
+        const { target } = e
+        switch (e.keyCode) {
             case KEY_CODES.RIGHT:
-                if(document.activeElement !== this.ref.current) return
-                target.setAttribute("aria-expanded", "true")
-                this.setState({ selectedIndex: 0 })
-                return
+                if (document.activeElement !== ref.current) break
+                target.setAttribute('aria-expanded', 'true')
+                setSelectedIndex(0)
+                break
             case KEY_CODES.LEFT:
-                this.blurMenu(e)
-                this.ref.current.focus()
-                return
+                blurMenu(e)
+                ref.current.focus()
+                break
             case KEY_CODES.DOWN:
-                currentIndex = this.state.selectedIndex
-                this.setState({ selectedIndex: currentIndex + 1})
-                return
+                currentIndex = selectedIndex
+                setSelectedIndex(currentIndex + 1)
+                break
             case KEY_CODES.UP:
-                currentIndex = this.state.selectedIndex
-                this.setState({ selectedIndex: currentIndex - 1})
-                return
+                currentIndex = selectedIndex
+                setSelectedIndex(currentIndex - 1)
+                break
             default:
-                return
+                break
         }
     }
 
-    render() {
-        const { text, id, children } = this.props
-        const containerId = `${id}__dropdown_container`
-        const { selectedIndex } = this.state
+    const containerId = `${id}__dropdown_container`
 
-        return (
-            <li className="dropdown-menu-listItem">
-                <div
-                    className="dropdown-toggler"
-                    tabIndex="0"
-                    aria-haspopup="true"
-                    aria-controls={containerId}
-                    ref={this.ref}
-                    onKeyDown={ this.onKeyDown }>{text}</div>
+    return (
+        <li className="dropdown-menu-listItem">
+            <div
+                className="dropdown-toggler"
+                tabIndex="0"
+                role="button"
+                aria-haspopup="true"
+                aria-controls={containerId}
+                ref={ref}
+                onKeyDown={onKeyDown}
+            >
+                {text}
+            </div>
 
-                <div
-                    className="dropdown-container"
-                    id={containerId}
-                    onKeyDown={this.onKeyDown}>
-                        { children.map((child, index) =>  {
-                            return <DropdownItem key={index} onKeyDown={this.onKeyDown} onBlur={this.blurMenu} active={index === selectedIndex} {...child}/>
-                        })}
-                </div>
-            </li>
-        )
-    }
+            <div
+                className="dropdown-container"
+                id={containerId}
+            >
+                { subMenus.map((child, index) => (
+                    <DropdownItem
+                        key={child.linkTo + child.text}
+                        onKeyDown={onKeyDown}
+                        onBlur={blurMenu}
+                        active={index === selectedIndex}
+                        linkTo={child.linkTo}
+                        text={child.text}
+                        onClick={child.onClick}
+                    />
+                ))}
+            </div>
+        </li>
+    )
 }
 
 function mapDispatch(dispatch) {
     return {
-        hideMobileMenu: () => dispatch(hideMobileMenu())
+        hideMobileMenu: () => dispatch(hideMobileMenu()),
     }
+}
+
+DropdownItem.propTypes = {
+    active: PropTypes.bool,
+    linkTo: PropTypes.string.isRequired,
+    text: PropTypes.string.isRequired,
+    onKeyDown: PropTypes.func.isRequired,
+    onBlur: PropTypes.func.isRequired,
+    onClick: PropTypes.func.isRequired,
+}
+
+DropdownItem.defaultProps = {
+    active: false,
+}
+
+DropdownMenu.propTypes = {
+    text: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    subMenus: PropTypes.arrayOf(PropTypes.shape({
+        linkTo: PropTypes.string,
+        text: PropTypes.string,
+        onClick: PropTypes.func,
+    })),
+}
+
+DropdownMenu.defaultProps = {
+    subMenus: null,
 }
 
 export default connect(null, mapDispatch)(DropdownMenu)

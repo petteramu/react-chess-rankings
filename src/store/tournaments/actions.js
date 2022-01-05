@@ -1,5 +1,5 @@
 import { push } from 'connected-react-router'
-import { url } from '../../configs/LambdaConfig'
+import url from '../../configs/LambdaConfig'
 import { hideAddTournamentPopup } from '../ui/actions'
 
 const REQUEST_TOURNAMENTS = 'REQUEST_TOURNAMENTS'
@@ -68,7 +68,9 @@ function fetchTournamentDetails(tournamentId) {
     }
 }
 
-function submitTournamentGame({ white, black, winner, id }) {
+function submitTournamentGame({
+    white, black, winner, id,
+}) {
     async function deleteGameIfNecessary(allMatches) {
         const existing = allMatches.find((match) => match.id === id)
         if (existing) {
@@ -84,12 +86,13 @@ function submitTournamentGame({ white, black, winner, id }) {
             await fetch(`${url}/game`, {
                 method: 'POST',
                 mode: 'cors',
-                body: JSON.stringify({ white, black, winner, id }),
+                body: JSON.stringify({
+                    white, black, winner, id,
+                }),
             })
             const tournament = (getState().tournament) ? getState().tournament.details : null
             if (tournament) dispatch(fetchTournamentDetails(tournament.id))
-        }
-        catch (error) {
+        } catch (error) {
             console.log(error)
         }
     }

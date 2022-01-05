@@ -5,5 +5,5 @@ export {
     getReadableDate,
     getShortReadableDate,
     getReadableDayMonth,
-    KEY_CODES
+    KEY_CODES,
 }

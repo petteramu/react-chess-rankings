@@ -1,14 +1,30 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
-import { Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Checkbox, FormControlLabel } from '@material-ui/core'
+import {
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogContentText,
+    DialogActions,
+    Button,
+    Checkbox,
+    FormControlLabel,
+} from '@material-ui/core'
+import { connect } from 'react-redux'
 import { hideDeleteMatchPopup } from '../../../store/ui/actions'
 import { deleteGame } from '../../../store/actions'
-import { connect } from 'react-redux'
 
-function AddGameDialog(props) {
-    const { match, open, close, submit } = props
+function DeleteGameDialog(props) {
+    const {
+        match, open, close, submit,
+    } = props
     const [sure, setSure] = useState(false)
-    if(!match) return null
+
+    useEffect(() => {
+        setSure(false)
+    }, [open])
+
+    if (!match) return null
 
     const toggleSure = () => setSure(!sure)
     const handleSubmit = () => {
@@ -16,8 +32,8 @@ function AddGameDialog(props) {
         close()
     }
     const checkboxStyle = {
-        'marginRight': 'auto',
-        'marginLeft': 0
+        marginRight: 'auto',
+        marginLeft: 0,
     }
 
     return (
@@ -25,19 +41,28 @@ function AddGameDialog(props) {
             <DialogTitle component="legend">Delete game</DialogTitle>
             <DialogContent>
                 <DialogContentText>
-                    <p>Are you sure you want to delete:</p>
-                    <p style={{"text-transform": "capitalize"}}>{match.white.key} vs. {match.black.key}</p>
+                    Are you sure you want to delete:
+                </DialogContentText>
+                <DialogContentText>
+                    <span style={{ textTransform: 'capitalize' }}>
+                        {match.white.key}
+                        {' '}
+                        vs.
+                        {' '}
+                        {match.black.key}
+                    </span>
                 </DialogContentText>
             </DialogContent>
             <DialogActions>
                 <FormControlLabel
                     style={checkboxStyle}
                     label="I am sure"
-                    control={
+                    control={(
                         <Checkbox
                             checked={sure}
                             onChange={toggleSure}
-                        />}
+                        />
+                    )}
                 />
                 <Button onClick={close}>Cancel</Button>
                 <Button disabled={!sure} onClick={handleSubmit}>Submit</Button>
@@ -49,30 +74,34 @@ function AddGameDialog(props) {
 function mapState(state) {
     return {
         match: state.ui.deleteGameData,
-        open: state.ui.deleteGameVisible
+        open: state.ui.deleteGameVisible,
     }
 }
 
 function mapDispatch(dispatch) {
     return {
         close: () => dispatch(hideDeleteMatchPopup()),
-        submit: (matchId) => dispatch(deleteGame(matchId))
+        submit: (matchId) => dispatch(deleteGame(matchId)),
     }
 }
 
-AddGameDialog.propTypes = {
-    open: PropTypes.bool,
-    close: PropTypes.func,
-    submit: PropTypes.func,
+DeleteGameDialog.propTypes = {
+    open: PropTypes.bool.isRequired,
+    close: PropTypes.func.isRequired,
+    submit: PropTypes.func.isRequired,
     match: PropTypes.shape({
         white: PropTypes.shape({
-            key: PropTypes.string
+            key: PropTypes.string,
         }),
         black: PropTypes.shape({
-            key: PropTypes.string
+            key: PropTypes.string,
         }),
-        id: PropTypes.string
-    })
+        id: PropTypes.string,
+    }),
 }
 
-export default connect(mapState, mapDispatch)(AddGameDialog)
+DeleteGameDialog.defaultProps = {
+    match: null,
+}
+
+export default connect(mapState, mapDispatch)(DeleteGameDialog)

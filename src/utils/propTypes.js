@@ -22,7 +22,14 @@ const MatchPropType = PropTypes.shape({
     id: PropTypes.string.isRequired,
 })
 
+const TournamentType = PropTypes.shape({
+    created: PropTypes.instanceOf(Date),
+    id: PropTypes.string,
+    tournamentName: PropTypes.string,
+})
+
 export {
     PlayerPropType,
     MatchPropType,
+    TournamentType,
 }

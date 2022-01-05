@@ -140,7 +140,11 @@ function mapDispatch(dispatch) {
 
 AddTournamentDialog.propTypes = {
     open: PropTypes.bool,
-    classes: PropTypes.object,
+    classes: PropTypes.shape({
+        dialogContent: PropTypes.string,
+        margins: PropTypes.string,
+        radioGroup: PropTypes.string,
+    }),
     players: PropTypes.arrayOf(PropTypes.shape({ name: PropTypes.string.isRequired })).isRequired,
     close: PropTypes.func.isRequired,
     submit: PropTypes.func.isRequired,
@@ -148,6 +152,11 @@ AddTournamentDialog.propTypes = {
 
 AddTournamentDialog.defaultProps = {
     open: false,
+    classes: {
+        dialogContent: '',
+        margins: '',
+        radioGroup: '',
+    },
 }
 
 export default connect(mapState, mapDispatch)(withStyles(styles)(AddTournamentDialog))
